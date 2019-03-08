@@ -5,8 +5,9 @@
 #' @param ... many parameters.
 #'
 #' @keywords external
+#' @export
 #'
-simid_foreach <- function(...) {
+smd_foreach <- function(...) {
 
   print("Hello, world!")
 

@@ -1,3 +1,3 @@
-# simid.foreach
+# simid.rtools
 
-This package provides extended foreach tools and parallel admin.
+This package provides extended R functions: e.g. parallel processing & admin.
