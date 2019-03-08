@@ -29,7 +29,7 @@
 #'
 
 ## PACKAGE ADMIN
-#devtools::use_build_ignore("workbench")
+#usethis::use_build_ignore("tutorials")
 #usethis::use_gpl3_license("lwillem")
 NULL
 
