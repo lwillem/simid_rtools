@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem
+# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Print (warning) message to Console
@@ -78,11 +78,16 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 #' @param time_stamp_loop starting time
 #'
 #' @keywords internal
+#' @export
 smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time()){
+
+  #smd_print(Sys.getpid(),exists('par_nodes_info'))
+  #smd_print(par_nodes_info)
 
   # print if function is called by first node
   if(!exists('par_nodes_info') ||
      (exists('par_nodes_info') && Sys.getpid() == par_nodes_info$pid_slave1)){
+
 
     # calculate progress
     progress_scen        <- floor(i_current/i_total*100)

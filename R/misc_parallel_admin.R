@@ -62,6 +62,7 @@ smd_stop_cluster <- function()
 
     stopCluster(par_nodes_info$par_cluster);
     rm(par_nodes_info,envir = .GlobalEnv) # REMOVE GLOBAL VARIABLE
+
   }
 }
 
@@ -70,10 +71,10 @@ smd_stop_cluster <- function()
 ################################################################
 #' @title Check parallel working nodes
 #' @keywords internal
-check_parallel_workers <- function(){
+smd_check_cluster <- function(){
   if(!exists('par_nodes_info')){
-    start_parallel_workers()
+    smd_start_cluster()
   } else if (!any(grepl(par_nodes_info$pid_slave1,system('ps -A',intern = T)))){
-    start_parallel_workers()
+    smd_start_cluster()
   }
 }
