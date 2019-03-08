@@ -4,7 +4,8 @@
 \alias{smd_progress}
 \title{Print progress bar}
 \usage{
-smd_progress(i_current, i_total, time_stamp_loop = Sys.time())
+smd_progress(i_current, i_total, time_stamp_loop = Sys.time(),
+  par_nodes_info = NA)
 }
 \arguments{
 \item{i_current}{current iteration}
@@ -12,6 +13,8 @@ smd_progress(i_current, i_total, time_stamp_loop = Sys.time())
 \item{i_total}{total iterations}
 
 \item{time_stamp_loop}{starting time}
+
+\item{par_nodes_info}{info about parallel nodes}
 }
 \description{
 Progress bar interface

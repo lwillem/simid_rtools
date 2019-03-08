@@ -76,18 +76,14 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 #' @param i_current       current iteration
 #' @param i_total         total iterations
 #' @param time_stamp_loop starting time
+#' @param par_nodes_info  info about parallel nodes
 #'
 #' @keywords internal
 #' @export
-smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time()){
-
-  #smd_print(Sys.getpid(),exists('par_nodes_info'))
-  #smd_print(par_nodes_info)
+smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
 
   # print if function is called by first node
-  if(!exists('par_nodes_info') ||
-     (exists('par_nodes_info') && Sys.getpid() == par_nodes_info$pid_slave1)){
-
+  if(!is.na('par_nodes_info') && Sys.getpid() == par_nodes_info$pid_slave1){
 
     # calculate progress
     progress_scen        <- floor(i_current/i_total*100)

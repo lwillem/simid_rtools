@@ -35,17 +35,18 @@ smd_start_cluster <- function()
   ## SETUP PARALLEL NODES
   # note: they will be removed after 280 seconds inactivity
   num_proc      <- detectCores()
-  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = 600)
+  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = 100)
   registerDoParallel(par_cluster)
 
   # store the process id (pid) of the first slave
   pid_slave1 <- clusterEvalQ(par_cluster, { Sys.getpid() })[[1]]
 
   # CREATE GLOBAL VARIABLE
-  par_nodes_info <<- list(par_cluster = par_cluster,
+  par_nodes_info <- list(par_cluster = par_cluster,
                           pid_master  = Sys.getpid(),
                           pid_slave1  = pid_slave1)
 
+  return(par_nodes_info)
 }
 
 ################################################################
