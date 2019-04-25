@@ -18,7 +18,7 @@
 #############################################################################
 
 #############################################################################
-# GET OUTPUT FOLDER PATH (create folder(s) if not present yet)
+# GET FILE PATH (create required folder(s) if they are not present yet)
 #############################################################################
 
 #' @title Get (and create) folder path
@@ -26,14 +26,21 @@
 #' @export
 smd_file_path <- function(...){
 
-  output_folder <- file.path(...)
+  # get file path based on given parameters
+  file_path <- file.path(...)
 
-  # check if the output folder exist, and create the folder(s) if not
-  if(!dir.exists(output_folder)){
-    smd_print('Create folder:',output_folder)
-    dir.create(output_folder,recursive = T)
+  # get dirname if file_path contains an extension
+  if(grepl('\\.',file_path)){
+    file_dir <- dirname(file_path)
+  } else{
+    file_dir <- file_path
   }
 
-  return(output_folder)
-}
+  # check if the requested folder exist, and create the folder(s) if not
+  if(!dir.exists(file_dir)){
+    smd_print('Create directory:',file_dir)
+    dir.create(file_dir,recursive = T)
+  }
 
+  return(file_path)
+}
