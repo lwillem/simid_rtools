@@ -24,8 +24,8 @@ rm(list=ls())
 
 # uncomment the following lines to install the simid.rtools package from github
 #install.packages('devtools')
-#library(devtools)
-#devtools::install_github("lwillem/simid_rtools",force=F,quiet=T)
+library(devtools)
+devtools::install_github("lwillem/simid_rtools",force=F,quiet=T)
 
 # load the package
 library('simid.rtools')
