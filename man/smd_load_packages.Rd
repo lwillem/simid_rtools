@@ -6,6 +6,9 @@
 \usage{
 smd_load_packages(all_packages)
 }
+\arguments{
+\item{all_packages}{container with package names to load}
+}
 \description{
 Load the given packages (and install them if not present yet)
 }

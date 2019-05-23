@@ -18,6 +18,8 @@
 #############################################################################
 
 #' @title Load the given packages (and install them if not present yet)
+#'
+#' @param all_packages  container with package names to load
 #' @keywords external
 #' @export
 smd_load_packages <- function(all_packages)
