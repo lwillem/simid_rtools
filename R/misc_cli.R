@@ -19,10 +19,12 @@
 
 #' @title Print (warning) message to Console
 #'
-#' @description Command line interface: print message with time tag
+#' @description Command line interface: print message with time tag, if called
+#' by the master node or first parallel slave
 #'
 #' @param ... (parts of the) message to print
-#' @param WARNING boolean, to print the message in red
+#' @param WARNING  boolean, to print the message in red
+#' @param FORCED   boolean, to print the message irrespectively of the parallel thread
 #'
 #' @keywords internal
 #' @export
@@ -43,14 +45,12 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   # add a space to each function arguments
   function_arguments <- paste(f_out,collapse = ' ')
 
-  # set text color: black (default) or red (warning)
-  web_color_black <- '\033[0;30m'
-  web_color_red   <- '\033[0;31m'
-  text_color      <- ifelse(WARNING,web_color_red,web_color_black)
+  # set text color: default (black/white) or red (warning)
+  text_color         <- smd_get_console_color(WARNING)
 
   # print time + arguments (without spaces)
   cli_out <- paste0(c('echo "',text_color, '[',format(Sys.time(),'%H:%M:%S'),']',
-                      function_arguments, web_color_black,'"'),collapse = '')
+                      function_arguments,'"'),collapse = '')
 
   # print if function is called by master-node or first slave
   if(!exists('par_nodes_info') ||
@@ -62,7 +62,7 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   # add to R warnings
   if(WARNING){
     cli_warning <- paste0(c(text_color, '[',format(Sys.time(),'%H:%M:%S'),']',
-                            function_arguments, web_color_black),collapse = '')
+                            function_arguments),collapse = '')
     warning(cli_warning,
             call. = FALSE, immediate.=FALSE)
   }
@@ -99,4 +99,30 @@ smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nod
 
     smd_print('RUNNING...',i_current,'/',i_total,time_label,FORCED=TRUE)
   }
+}
+
+
+#' @title Get default Rstudio console color
+#'
+#' @description The default color of the console (or terminal) depends on whether R(studio)
+#' is used in DARK mode. This function return 'black' or 'white', based on the current theme.
+#' If the function is used in R, an empty color is returned.
+#'
+#' @keywords internal
+smd_get_console_color <- function(WARNING=FALSE){
+
+  if(!rstudioapi::isAvailable()){
+    return('')
+  }
+
+  if(WARNING){
+    return('\033[0;31m') #red
+  }
+
+  if(rstudioapi::getThemeInfo()$dark){
+    return('\033[0;37m') # white
+  } else{
+    return('\033[0;30m') # black
+  }
+
 }

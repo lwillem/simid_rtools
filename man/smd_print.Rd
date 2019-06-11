@@ -10,8 +10,11 @@ smd_print(..., WARNING = F, FORCED = F)
 \item{...}{(parts of the) message to print}
 
 \item{WARNING}{boolean, to print the message in red}
+
+\item{FORCED}{boolean, to print the message irrespectively of the parallel thread}
 }
 \description{
-Command line interface: print message with time tag
+Command line interface: print message with time tag, if called
+by the master node or first parallel slave
 }
 \keyword{internal}

@@ -1,13 +1,13 @@
 Package: simid.rtools
 Type: Package
 Title: Extended R functions: eg. parallel foreach
-Version: 0.1.11
+Version: 0.1.12
 Author: Lander Willem
 Maintainer: Lander Willem <lander.willem@uantwerp.be>
 Description: Extension of existing R functions and packages to ease parallel processing and (parallel) command line interfacing.
-Depends: doParallel
+Depends: doParallel, rstudioapi
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Commit: 03689646aad06d67ebb4e12fe40ac930b63c578a
+Commit: efdab90fce7c9707fc2d2d395b93da4be85caaa8
