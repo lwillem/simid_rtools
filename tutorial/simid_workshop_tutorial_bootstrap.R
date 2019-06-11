@@ -70,6 +70,9 @@ num_bootstraps <- 500
 # for-loop 1
 for(i_bootstrap in 1:num_bootstraps){
 
+  # set RGN seed per bootstrap, so the processing sequence does not affect the results
+  set.seed(rng_seed + i_bootstrap)
+
   # bootstrap population
   pop_bootstrap        <- pop_data[sample(pop_size,replace=T),]
 
@@ -108,6 +111,9 @@ print(system.time( # start manual profiling
 bootstrap_out <- foreach(i_bootstrap = 1:num_bootstraps,
                         .combine      = 'rbind') %do%{
 
+  # set RGN seed per bootstrap, so the processing sequence does not affect the results
+  set.seed(rng_seed + i_bootstrap)
+
   # bootstrap population
   pop_bootstrap        <- pop_data[sample(pop_size,replace=T),]
 
@@ -131,7 +137,7 @@ print('BOOTSTRAPS: COMPLETE')
 # ###################
 #  PARALLEL FOREACH
 # ###################
-print('PARALLEL FOREACH: START')
+print('PARALLEL FOREACH')
 
 # load package 'devtools'
 library(devtools)
@@ -147,19 +153,20 @@ print(system.time( # manual profiling
 # run loop in parallel
 bootstrap_out <- foreach(i_bootstrap = 1:num_bootstraps,
                          .combine      = 'rbind') %dopar%{
+   # set RGN seed per bootstrap, so the processing sequence does not affect the results
+   set.seed(rng_seed + i_bootstrap)
 
-                           # bootstrap population
-                           pop_bootstrap        <- pop_data[sample(pop_size,replace=T),]
+   # bootstrap population
+   pop_bootstrap        <- pop_data[sample(pop_size,replace=T),]
 
-                           # get mean age by community and gender
-                           summary_num_contacts <- aggregate(num_contacts ~ age + gender, data = pop_bootstrap, mean)
+   # get mean age by community and gender
+   summary_num_contacts <- aggregate(num_contacts ~ age + gender, data = pop_bootstrap, mean)
 
-                           # aggregte results: data.frame
-                           out_data_frame       <- data.frame(i_bootstrap,
-                                                              summary_num_contacts)
-
-                           # return results
-                           return(out_data_frame)
+   # aggregte results: data.frame
+   out_data_frame       <- data.frame(i_bootstrap,
+                                      summary_num_contacts)
+   # return results
+   return(out_data_frame)
   }
 )) # end system.time()
 
