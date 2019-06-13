@@ -19,14 +19,17 @@
 
 #' @title Load the given packages (and install them if not present yet)
 #'
-#' @param ...  all package names to load
+#' @param ...  all packages to load
 #' @keywords external
 #' @export
 smd_load_packages <- function(...)
 {
 
+  # collect all given package names
+  all_packages <- c(...)
+
   # loop over the given package names
-  for(i_package in ...){
+  for(i_package in all_packages){
 
     # if not present => install
     if(!i_package %in% rownames(installed.packages())){

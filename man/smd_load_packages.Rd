@@ -7,7 +7,7 @@
 smd_load_packages(...)
 }
 \arguments{
-\item{...}{all package names to load}
+\item{...}{all packages to load}
 }
 \description{
 Load the given packages (and install them if not present yet)
