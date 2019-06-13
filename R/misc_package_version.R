@@ -23,7 +23,7 @@
 #'
 #' @param packageLocation the location of the package.
 #'
-#' @keywords internal
+#' @export
 increment_package_version_number <- function(packageLocation = ".") {
 
     description_filename <- file.path(packageLocation, "DESCRIPTION")

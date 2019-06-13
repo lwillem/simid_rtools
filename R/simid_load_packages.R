@@ -19,25 +19,22 @@
 
 #' @title Load the given packages (and install them if not present yet)
 #'
-#' @param all_packages  container with package names to load
+#' @param ...  all package names to load
 #' @keywords external
 #' @export
-smd_load_packages <- function(all_packages)
+smd_load_packages <- function(...)
 {
 
-  # load the doParallel package seperatly so we can use 'all_packages' in a parallel foreach
-  all_packages_with_parallel <- c(all_packages,'doParallel')
-
-  # loop over the packages
-  for(package_i in all_packages_with_parallel){
+  # loop over the given package names
+  for(i_package in ...){
 
     # if not present => install
-    if(!package_i %in% rownames(installed.packages())){
-      install.packages(package_i)
+    if(!i_package %in% rownames(installed.packages())){
+      install.packages(i_package)
     }
 
     # load package
-    library(package_i,
+    library(i_package,
             character.only=TRUE,
             quietly = TRUE,
             warn.conflicts = FALSE,

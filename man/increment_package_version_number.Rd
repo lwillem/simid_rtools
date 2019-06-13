@@ -12,4 +12,3 @@ increment_package_version_number(packageLocation = ".")
 \description{
 Increment the version number if the git commit number in the DESCRIPTION file does not correspond with the latest git commit number in the repository.
 }
-\keyword{internal}

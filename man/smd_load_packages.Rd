@@ -4,10 +4,10 @@
 \alias{smd_load_packages}
 \title{Load the given packages (and install them if not present yet)}
 \usage{
-smd_load_packages(all_packages)
+smd_load_packages(...)
 }
 \arguments{
-\item{all_packages}{container with package names to load}
+\item{...}{all package names to load}
 }
 \description{
 Load the given packages (and install them if not present yet)
