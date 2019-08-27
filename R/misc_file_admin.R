@@ -18,6 +18,40 @@
 #############################################################################
 
 #############################################################################
+# LOAD RDATA FILE WITH A SINGLE VARIABLE
+#############################################################################
+
+#' @title Reads a file in RData format and returns the stored variable.
+#' @param filename    The filename of the .RData File (case sensitive!)
+#' @keywords external
+#' @note This function enables to rename a stored variable in the (compressed)
+#' RData format. If the file contains multiple variables, this functions returns NULL.
+#' @export
+smd_read_rdata <- function(filename){
+
+    # check file extension
+  filename_extension <- tolower(substr(filename,nchar(filename)-5,nchar(filename)))
+  if(filename_extension != '.rdata'){
+    smd_print('The given file is no RData file  ==>> return NULL',warning = T)
+    return(NULL)
+  }
+
+  # load rdata file
+  filename_variable <- load(filename)
+
+  # check the number of loaded variables
+  # if only one ==>> return
+  # if multiple ==>> warning and stop
+  if(length(filename_variable)==1){
+    return(get(filename_variable))
+  } else{
+    smd_print('The RData file contains multiple variables ==>> return NULL',warning = T)
+    return(NULL)
+  }
+}
+
+
+#############################################################################
 # GET FILE PATH (create required folder(s) if they are not present yet)
 #############################################################################
 
