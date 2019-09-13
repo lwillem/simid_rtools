@@ -57,7 +57,7 @@ increment_package_version_number <- function(packageLocation = ".") {
         cNumber <- gsub("^PreviousCommit\\: ", "", desc[cLine])
 
         ## Get the REPOSITORY git commit tag
-        cNumber_repo <- get_local_git_commit_tag()
+        cNumber_repo <- smd_get_local_git_commit_tag()
 
         ## if the git commit tag is different than the one in description: update commit tag & increment version number
         if (cNumber != cNumber_repo) {
@@ -91,23 +91,24 @@ increment_package_version_number <- function(packageLocation = ".") {
 #' @title Get the local git commit id and date
 #'
 #' @export
-get_local_git_commit_tag <- function(){
+smd_get_local_git_commit_tag <- function(){
 
   # get the local git log
-  gitLog_repo  <- system("git log", intern = TRUE)
+  gitLog_repo       <- system("git log", intern = TRUE)
 
   # select the latest commit id
   cLines_repo_id    <- grep("commit", gitLog_repo)
   cNumber_repo_id   <- gsub("commit ", "", gitLog_repo[cLines_repo_id[1]])
 
-  # select the latest commit time-stamp
+  # select the latest commit time stamp
   cLines_repo_date  <- grep("Date:", gitLog_repo)
   cNumber_repo_date <- gsub("Date:   ", "", gitLog_repo[cLines_repo_date[1]])
 
-  # create extended commit id
+  # create an commit tag based in the commit id and time
   commit_id_ext <- paste0(substr(cNumber_repo_id,1,10),
                           ' [',cNumber_repo_date,']')
 
+  # return the commit tag
   return(commit_id_ext)
 }
 
