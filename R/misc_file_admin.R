@@ -24,9 +24,9 @@
 #' @title Reads a file in RData format and returns the stored variable.
 #' @param filename    The filename of the .RData File (case sensitive!)
 #' @keywords external
+#' @export
 #' @note This function enables to rename a stored variable in the (compressed)
 #' RData format. If the file contains multiple variables, this functions returns NULL.
-#' @export
 smd_read_rdata <- function(filename){
 
     # check file extension

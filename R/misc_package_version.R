@@ -42,30 +42,28 @@ increment_package_version_number <- function(packageLocation = ".") {
 
         ## Split the version number into two; a piece to keep, a piece to increment
         versionNumber <- strsplit(vNumber, "\\.")[[1]]
-        versionParts <- length(versionNumber)
-        vNumberKeep <- paste(versionNumber[1:(versionParts - 1)], sep = "", collapse = ".")
+        versionParts  <- length(versionNumber)
+        vNumberKeep   <- paste(versionNumber[1:(versionParts - 1)], sep = "", collapse = ".")
         vNumberUpdate <- versionNumber[versionParts]
 
         ## Check if the DESCRIPTION file contains a git commit number
-        if (!any(grepl("^Commit\\:", desc))) {
+        if (!any(grepl("^PreviousCommit\\:", desc))) {
             # if not present yet, add a placeholder
-            desc[length(desc) + 1] <- "Commit: -1"
+            desc[length(desc) + 1] <- "PreviousCommit: -1"
         }
 
         ## Get the DESCRIPTION git commit number
-        cLine   <- grep("^Commit\\:", desc)
-        cNumber <- gsub("^Commit\\: ", "", desc[cLine])
+        cLine   <- grep("^PreviousCommit\\:", desc)
+        cNumber <- gsub("^PreviousCommit\\: ", "", desc[cLine])
 
-        ## Get the REPOSITORY git commit number
-        gitLog_repo  <- system("git log", intern = TRUE)
-        cLines_repo  <- grep("commit", gitLog_repo)
-        cNumber_repo <- gsub("commit ", "", gitLog_repo[cLines_repo[1]])
+        ## Get the REPOSITORY git commit tag
+        cNumber_repo <- get_local_git_commit_tag()
 
-        ## if the git commit number is different than the one in description - update commit number - increment version number
+        ## if the git commit tag is different than the one in description: update commit tag & increment version number
         if (cNumber != cNumber_repo) {
 
-            ## Replace old commit number with the new one
-            desc[cLine] <- paste0("Commit: ", cNumber_repo)
+            ## Replace old commit tag with the new one
+            desc[cLine] <- paste0("PreviousCommit: ", cNumber_repo)
 
             ## Replace old version number with new one (increment by 1)
             oldVersion <- as.numeric(vNumberUpdate)
@@ -88,6 +86,31 @@ increment_package_version_number <- function(packageLocation = ".") {
         }
     }
 }
+
+
+#' @title Get the local git commit id and date
+#'
+#' @export
+get_local_git_commit_tag <- function(){
+
+  # get the local git log
+  gitLog_repo  <- system("git log", intern = TRUE)
+
+  # select the latest commit id
+  cLines_repo_id    <- grep("commit", gitLog_repo)
+  cNumber_repo_id   <- gsub("commit ", "", gitLog_repo[cLines_repo_id[1]])
+
+  # select the latest commit time-stamp
+  cLines_repo_date  <- grep("Date:", gitLog_repo)
+  cNumber_repo_date <- gsub("Date:   ", "", gitLog_repo[cLines_repo_date[1]])
+
+  # create extended commit id
+  commit_id_ext <- paste0(substr(cNumber_repo_id,1,10),
+                          ' [',cNumber_repo_date,']')
+
+  return(commit_id_ext)
+}
+
 
 
 # run this function during package building, suppress warnings and errors for end users
