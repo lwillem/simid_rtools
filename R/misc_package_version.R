@@ -24,7 +24,7 @@
 #' @param packageLocation the location of the package.
 #'
 #' @export
-increment_package_version_number <- function(packageLocation = ".") {
+smd_increment_package_version_number <- function(packageLocation = ".") {
 
     description_filename <- file.path(packageLocation, "DESCRIPTION")
     git_log_filename <- file.path(packageLocation, ".git")
@@ -104,8 +104,12 @@ smd_get_local_git_commit_tag <- function(){
   cLines_repo_date  <- grep("Date:", gitLog_repo)
   cNumber_repo_date <- gsub("Date:   ", "", gitLog_repo[cLines_repo_date[1]])
 
+  # commit index
+  cIndex <- length(cLines_repo_date)
+
   # create an commit tag based in the commit id and time
   commit_id_ext <- paste0(substr(cNumber_repo_id,1,10),
+                          ' (#',cIndex,')',
                           ' [',cNumber_repo_date,']')
 
   # return the commit tag
@@ -113,6 +117,5 @@ smd_get_local_git_commit_tag <- function(){
 }
 
 
-
 # run this function during package building, suppress warnings and errors for end users
-try(increment_package_version_number(), silent = T)
+try(smd_increment_package_version_number(), silent = T)
