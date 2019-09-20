@@ -139,20 +139,30 @@ smd_get_local_git_commit_tag <- function(){
 }
 
 
-#' @title Create a text file with meta info on a model run
+#' @title Create a text file with metadata
 #'
-#' @description Create a file with meta information on current software state and run info in the given output directory.
+#' @description Create a file with metadata on current software state, run info, and other info.
 #'
-#' @param output_dir  the folder with model output, where the new file should be created
-#' @param run_tag     a tag to specify the model run (optional)
+#' @param output_dir  the folder where the new file should be created
+#' @param run_tag     the tag to specify the model run (optional)
 #' @param run_time    the run time (optional)
 #' @param root_folder the root folder of the model software (default = '.')
+#' @param other_info  additional info to include in the metafile (optional)
 #'
 #' @export
-smd_create_meta_data_file <- function(output_dir, run_tag = NA, run_time = NA, root_folder = '.'){
+smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
+                                     run_time = NA, root_folder = '.', other_info = NA){
 
-  # set description filename in the output directory
-  description_filename_run  <- smd_file_path(output_dir,"MODEL_DESCRIPTION.txt")
+  # set default metadata filename
+  metadata_filename <- "METADATA.txt"
+
+  # add prefix, if given
+  if(nchar(file_prefix)>0){
+    metadata_filename <-  paste(file_prefix,metadata_filename,sep='_')
+  }
+
+  # set full metadata filename with output directory
+  metadata_filename  <- smd_file_path(output_dir,metadata_filename)
 
   # look for a DESCRIPTION file in the root folder
   description_filename      <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
@@ -160,13 +170,13 @@ smd_create_meta_data_file <- function(output_dir, run_tag = NA, run_time = NA, r
   # if present, load description file with version number, software info and commit id
   # else, start from scratch
   if(length(description_filename)==1){
-    desc <- readLines(description_filename)
+    metadata <- readLines(description_filename)
   } else{
-    desc <- 'SOFTWARE INFO'
+    metadata <- 'SOFTWARE INFO'
   }
 
   # add current date and some environment variables
-  desc <- c(desc,
+  metadata <- c(metadata,
             '',
             paste('Run_date:\t\t',format(Sys.time())),
             paste('Run_R_version:\t\t',sessionInfo()$R.version$version.string),
@@ -176,18 +186,23 @@ smd_create_meta_data_file <- function(output_dir, run_tag = NA, run_time = NA, r
 
   # if provided, add run tag
   if(!is.na(run_tag)){
-    desc <- c(desc,paste('Run_tag:\t',run_tag))
+    metadata <- c(metadata,paste('Run_tag:\t',run_tag))
   }
 
   # if provided, add run time
   if(!is.na(run_time)){
-    desc <- c(desc,paste('Run_time:\t',run_time))
+    metadata <- c(metadata,paste('Run_time:\t',run_time))
   }
 
-  # create the modified DESCRIPTION file in the output directory
-  writeLines(desc, description_filename_run)
+  if(!is.na(other_info)){
+    metadata <- c(metadata,other_info)
+  }
+
+  # create the METADATA file in the output directory
+  writeLines(metadata, metadata_filename)
 }
 
 ## PACKAGE ADMIN
 # run this function during package building, suppress warnings and errors for end users
 try(smd_update_description_file(), silent = T)
+
