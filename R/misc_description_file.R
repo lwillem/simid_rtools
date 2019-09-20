@@ -17,17 +17,34 @@
 # Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
-#' @title Update the version number in DESCRIPTION
+#' @title smd_increment_package_version_number
 #'
-#' @description Increment the version number if the git commit number in the DESCRIPTION file does not correspond with the latest git commit number in the repository.
+#' @description Check if the git commit number in the DESCRIPTION file still corresponds
+#' with the latest git commit number in the repository. If not, update the version and git info
 #'
-#' @param packageLocation the location of the package.
+#' @param root_folder the root folder of the software project
 #'
 #' @export
-smd_increment_package_version_number <- function(packageLocation = ".") {
+smd_increment_package_version_number <- function(root_folder = ".") {
+  smd_print('FUNCTION smd_increment_package_version_number DEPRECATED!! PLEASE USE smd_update_description_file',warning=T)
+  smd_update_description_file(root_folder)
+}
 
-    description_filename <- file.path(packageLocation, "DESCRIPTION")
-    git_log_filename <- file.path(packageLocation, ".git")
+#' @title Update the DESCRIPTION file
+#'
+#' @description Check if the git commit number in the DESCRIPTION file still corresponds
+#' with the latest git commit number in the repository. If not, update the version and git info
+#'
+#' @param root_folder the root folder of the software project
+#'
+#' @export
+smd_update_description_file <- function(root_folder = ".") {
+
+    # set description filename: with or without extension
+    description_filename <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
+
+    # set git log filename
+    git_log_filename     <- file.path(root_folder, ".git")
 
     # check if files exists
     if (file.exists(description_filename) & file.exists(git_log_filename)) {
@@ -76,9 +93,9 @@ smd_increment_package_version_number <- function(packageLocation = ".") {
             desc[vLine] <- paste0("Version: ", vFinal)
 
             ## Update the actual DESCRIPTION file
-            writeLines(desc, file.path(packageLocation, "DESCRIPTION"))
+            writeLines(desc, description_filename)
 
-            cat("**** updated version number and commit in DESCRIPTION", fill = T)
+            cat("**** updated version number and commit info in DESCRIPTION.txt", fill = T)
             cat(desc[vLine], fill = T)
 
         } else {
@@ -104,18 +121,73 @@ smd_get_local_git_commit_tag <- function(){
   cLines_repo_date  <- grep("Date:", gitLog_repo)
   cNumber_repo_date <- gsub("Date:   ", "", gitLog_repo[cLines_repo_date[1]])
 
+  # reformat date and time
+  cNumber_time <- substr(cNumber_repo_date,12,19)
+  cNumber_date <- paste(substr(cNumber_repo_date,1,10), substr(cNumber_repo_date,21,24))
+  cNumber_date <- as.Date(cNumber_date,format='%a %h %d %Y')
+
   # commit index
   cIndex <- length(cLines_repo_date)
 
   # create an commit tag based in the commit id and time
   commit_id_ext <- paste0(substr(cNumber_repo_id,1,10),
                           ' (#',cIndex,')',
-                          ' [',cNumber_repo_date,']')
+                          ' [',cNumber_date,' ', cNumber_time,']')
 
   # return the commit tag
   return(commit_id_ext)
 }
 
 
+#' @title Create a text file with meta info on a model run
+#'
+#' @description Create a file with meta information on current software state and run info in the given output directory.
+#'
+#' @param output_dir  the folder with model output, where the new file should be created
+#' @param run_tag     a tag to specify the model run (optional)
+#' @param run_time    the run time (optional)
+#' @param root_folder the root folder of the model software (default = '.')
+#'
+#' @export
+smd_create_meta_data_file <- function(output_dir, run_tag = NA, run_time = NA, root_folder = '.'){
+
+  # set description filename in the output directory
+  description_filename_run  <- smd_file_path(output_dir,"MODEL_DESCRIPTION.txt")
+
+  # look for a DESCRIPTION file in the root folder
+  description_filename      <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
+
+  # if present, load description file with version number, software info and commit id
+  # else, start from scratch
+  if(length(description_filename)==1){
+    desc <- readLines(description_filename)
+  } else{
+    desc <- 'SOFTWARE INFO'
+  }
+
+  # add current date and some environment variables
+  desc <- c(desc,
+            '',
+            paste('Run_date:\t\t',format(Sys.time())),
+            paste('Run_R_version:\t\t',sessionInfo()$R.version$version.string),
+            paste('Run_platform:\t\t',sessionInfo()$platform),
+            paste('Run_work_directory:\t',getwd())
+  )
+
+  # if provided, add run tag
+  if(!is.na(run_tag)){
+    desc <- c(desc,paste('Run_tag:\t',run_tag))
+  }
+
+  # if provided, add run time
+  if(!is.na(run_time)){
+    desc <- c(desc,paste('Run_time:\t',run_time))
+  }
+
+  # create the modified DESCRIPTION file in the output directory
+  writeLines(desc, description_filename_run)
+}
+
+## PACKAGE ADMIN
 # run this function during package building, suppress warnings and errors for end users
-try(smd_increment_package_version_number(), silent = T)
+try(smd_update_description_file(), silent = T)
