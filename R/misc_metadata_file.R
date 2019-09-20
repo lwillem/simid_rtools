@@ -44,7 +44,7 @@ smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
   metadata_filename  <- smd_file_path(output_dir,metadata_filename)
 
   # look for a METADATA file in the root folder
-  source_filename      <- dir(root_dir,pattern = "METAFILE",full.names=T)
+  source_filename      <- dir(root_dir,pattern = "METADATA",full.names=T)
 
   # else, look for a DESCRIPTION file in the root folder
   if(length(source_filename)==0){
@@ -74,11 +74,16 @@ smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
 
   # add current date and some environment variables
   metadata <- c(metadata,
-            paste('Run_date:\t',format(Sys.time())),
-            paste('Run_R_version:\t',sessionInfo()$R.version$version.string),
-            paste('Run_platform:\t',sessionInfo()$platform),
-            paste('Run_workdir:\t',getwd())
+                paste('Run_date:\t',format(Sys.time())),
+                paste('Run_R_version:\t',sessionInfo()$R.version$version.string),
+                paste('Run_platform:\t',sessionInfo()$platform),
+                paste('Run_workdir:\t',getwd())
   )
+
+  # if provided, add other info
+  if(any(!is.na(other_info))){
+    metadata <- c(metadata,'',other_info)
+  }
 
   # create the METADATA file in the output directory
   writeLines(metadata, metadata_filename)
