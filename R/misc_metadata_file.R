@@ -44,11 +44,11 @@ smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
   metadata_filename  <- smd_file_path(output_dir,metadata_filename)
 
   # look for a METADATA file in the root folder
-  source_filename      <- dir(root_folder,pattern = "METAFILE",full.names=T)
+  source_filename      <- dir(root_dir,pattern = "METAFILE",full.names=T)
 
   # else, look for a DESCRIPTION file in the root folder
   if(length(source_filename)==0){
-    source_filename      <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
+    source_filename      <- dir(root_dir,pattern = "DESCRIPTION",full.names=T)
   }
 
   # if present, load source file with version number, software info and commit id
@@ -60,7 +60,7 @@ smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
   }
 
   # add blank line
-  metadata <- c('',metadata)
+  metadata <- c(metadata,'','--------------------','')
 
   # if provided, add run tag
   if(!is.na(run_tag)){
@@ -79,15 +79,6 @@ smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
             paste('Run_platform:\t',sessionInfo()$platform),
             paste('Run_workdir:\t',getwd())
   )
-
-  # if provided, add run tag
-  if(!is.na(run_tag)){
-    metadata <- c(metadata,paste('Run_tag:\t',run_tag))
-  }
-
-  if(!is.na(other_info)){
-    metadata <- c(metadata,other_info)
-  }
 
   # create the METADATA file in the output directory
   writeLines(metadata, metadata_filename)
