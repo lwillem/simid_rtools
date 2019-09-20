@@ -1,5 +1,5 @@
 #############################################################################
-# PACKAGE VERSION UPDATE
+# DESCRIPTION FILE ADMIN
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -138,69 +138,6 @@ smd_get_local_git_commit_tag <- function(){
   return(commit_id_ext)
 }
 
-
-#' @title Create a text file with metadata
-#'
-#' @description Create a file with metadata on current software state, run info, and other info.
-#'
-#' @param output_dir  the folder where the new file should be created
-#' @param run_tag     the tag to specify the model run (optional)
-#' @param run_time    the run time (optional)
-#' @param root_folder the root folder of the model software (default = '.')
-#' @param other_info  additional info to include in the metafile (optional)
-#'
-#' @export
-smd_create_metadata_file <- function(output_dir, file_prefix = '', run_tag = NA,
-                                     run_time = NA, root_folder = '.', other_info = NA){
-
-  # set default metadata filename
-  metadata_filename <- "METADATA.txt"
-
-  # add prefix, if given
-  if(nchar(file_prefix)>0){
-    metadata_filename <-  paste(file_prefix,metadata_filename,sep='_')
-  }
-
-  # set full metadata filename with output directory
-  metadata_filename  <- smd_file_path(output_dir,metadata_filename)
-
-  # look for a DESCRIPTION file in the root folder
-  description_filename      <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
-
-  # if present, load description file with version number, software info and commit id
-  # else, start from scratch
-  if(length(description_filename)==1){
-    metadata <- readLines(description_filename)
-  } else{
-    metadata <- 'SOFTWARE INFO'
-  }
-
-  # add current date and some environment variables
-  metadata <- c(metadata,
-            '',
-            paste('Run_date:\t\t',format(Sys.time())),
-            paste('Run_R_version:\t\t',sessionInfo()$R.version$version.string),
-            paste('Run_platform:\t\t',sessionInfo()$platform),
-            paste('Run_work_directory:\t',getwd())
-  )
-
-  # if provided, add run tag
-  if(!is.na(run_tag)){
-    metadata <- c(metadata,paste('Run_tag:\t',run_tag))
-  }
-
-  # if provided, add run time
-  if(!is.na(run_time)){
-    metadata <- c(metadata,paste('Run_time:\t',run_time))
-  }
-
-  if(!is.na(other_info)){
-    metadata <- c(metadata,other_info)
-  }
-
-  # create the METADATA file in the output directory
-  writeLines(metadata, metadata_filename)
-}
 
 ## PACKAGE ADMIN
 # run this function during package building, suppress warnings and errors for end users
