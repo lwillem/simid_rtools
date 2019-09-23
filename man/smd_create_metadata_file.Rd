@@ -25,7 +25,7 @@ smd_create_metadata_file(output_dir, data_file = NA, run_tag = NA,
 
 \item{main_title}{new 'Title' of the METADATA file (optional).}
 
-\item{sub_title}{subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS) .}
+\item{sub_title}{subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS).}
 }
 \description{
 Create a file with METADATA on e.g. current software state, run info, and other info.
