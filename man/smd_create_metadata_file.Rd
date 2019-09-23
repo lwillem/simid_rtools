@@ -2,22 +2,31 @@
 % Please edit documentation in R/misc_metadata_file.R
 \name{smd_create_metadata_file}
 \alias{smd_create_metadata_file}
-\title{Create a text file with metadata}
+\title{Create a text file with METADATA}
 \usage{
-smd_create_metadata_file(output_dir, file_prefix = "", run_tag = NA,
-  run_time = NA, root_dir = ".", other_info = NA)
+smd_create_metadata_file(output_dir, data_file = NA, run_tag = NA,
+  run_time = NA, root_dir = ".", other_info = NA, file_prefix = "",
+  main_title = NA, sub_title = "PROCESSING DETAILS")
 }
 \arguments{
-\item{output_dir}{the directory where the new file should be created}
+\item{output_dir}{the directory where the new file will be created.}
 
-\item{run_tag}{the tag to specify the model run (optional)}
+\item{data_file}{the corresponding DATA file, to create a correspoding file name for the METADATA file (optional).}
 
-\item{run_time}{the run time (optional)}
+\item{run_tag}{the tag to specify the model run (optional).}
 
-\item{root_dir}{the root directory, with a DESCRIPTION OR METADATA file to start from (default = '.')}
+\item{run_time}{the run time (optional).}
 
-\item{other_info}{additional info to include in the metafile (optional)}
+\item{root_dir}{the root directory, with a DESCRIPTION or METADATA file to start from (default = '.')}
+
+\item{other_info}{additional info to include (optional).}
+
+\item{file_prefix}{a prefix for the METADATA file (optional, but overruled by 'data_file').}
+
+\item{main_title}{new 'Title' of the METADATA file (optional).}
+
+\item{sub_title}{subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS) .}
 }
 \description{
-Create a file with metadata on e.g. current software state, run info, and other info.
+Create a file with METADATA on e.g. current software state, run info, and other info.
 }
