@@ -41,34 +41,34 @@ smd_listToXML <- function(node, sublist){
   }
 }
 
-#' @title Save a list in XML format with given root node
+#' @title Save a list as XML file with given root node
 #'
 #' @description The counterpart of the "XML::xmlToList" function
 #'
 #' @param data_list          the list to be stored
-#' @param root_name          the name of the XMP main rootd
+#' @param root_name          the name of the XML main root
 #' @param file_name_prefix   the prefix for the file name
-#' @param xml_prefix         the xml prefix tag (optional)
+#' @param xml_prefix         the xml prefix (optional)
 #'
 #' @keywords external
 #' @export
 #' @import XML
 smd_save_as_xml <- function(data_list,
                             root_name,
-                            file_name_prefix='data',
+                            file_name_prefix = 'data',
                             xml_prefix = NULL){
 
   # setup XML doc (to add prefix)
-  xml_doc = newXMLDoc()
+  xml_doc <- newXMLDoc()
 
   # setup XML root
-  root <- newXMLNode(root_name, doc = xml_doc)
+  root    <- newXMLNode(root_name, doc = xml_doc)
 
   # add list info
   smd_listToXML(root, data_list)
 
   # create filename
-  filename <- paste0(file_name_prefix,'.xml')
+  file_name <- smd_file_path(paste0(file_name_prefix,'.xml'))
 
   # xml prefix
   if(!is.null(xml_prefix)){
@@ -78,7 +78,7 @@ smd_save_as_xml <- function(data_list,
   # save as XML,
   # note: if we use an XMLdoc to include prefix, the line break dissapears...
   # fix: http://r.789695.n4.nabble.com/saveXML-prefix-argument-td4678407.html
-  cat(saveXML(xml_doc, indent = TRUE, prefix = xml_prefix), file = filename)
+  cat(saveXML(xml_doc, indent = TRUE, prefix = xml_prefix), file = file_name)
 
   # return the filename
   return(filename)

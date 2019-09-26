@@ -2,7 +2,7 @@
 % Please edit documentation in R/misc_xml.R
 \name{smd_save_as_xml}
 \alias{smd_save_as_xml}
-\title{Save a list in XML format with given root node}
+\title{Save a list as XML file with given root node}
 \usage{
 smd_save_as_xml(data_list, root_name, file_name_prefix = "data",
   xml_prefix = NULL)
@@ -10,11 +10,11 @@ smd_save_as_xml(data_list, root_name, file_name_prefix = "data",
 \arguments{
 \item{data_list}{the list to be stored}
 
-\item{root_name}{the name of the XMP main rootd}
+\item{root_name}{the name of the XML main root}
 
 \item{file_name_prefix}{the prefix for the file name}
 
-\item{xml_prefix}{the xml prefix tag (optional)}
+\item{xml_prefix}{the xml prefix (optional)}
 }
 \description{
 The counterpart of the "XML::xmlToList" function
