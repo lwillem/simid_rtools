@@ -24,7 +24,7 @@
 #' @param node     the XML node
 #' @param sublist  the list to be stored
 #'
-#' @keywords internal
+#' @export
 #' @import XML
 smd_listToXML <- function(node, sublist){
 

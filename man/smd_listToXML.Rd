@@ -14,4 +14,3 @@ smd_listToXML(node, sublist)
 \description{
 The counterpart of the "XML::xmlToList" function
 }
-\keyword{internal}
