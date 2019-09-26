@@ -80,7 +80,7 @@ smd_save_as_xml <- function(data_list,
   # fix: http://r.789695.n4.nabble.com/saveXML-prefix-argument-td4678407.html
   cat(saveXML(xml_doc, indent = TRUE, prefix = xml_prefix), file = file_name)
 
-  # return the filename
-  return(filename)
+  # return the file name
+  return(file_name)
 }
 
