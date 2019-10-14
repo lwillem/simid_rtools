@@ -32,7 +32,6 @@
 #' @param main_title  new 'Title' of the METADATA file (optional).
 #' @param sub_title   subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS).
 #'
-#' @import tools
 #'
 #' @export
 smd_create_metadata_file <- function(output_dir, data_file = NA, run_tag = NA,

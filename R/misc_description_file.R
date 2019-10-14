@@ -122,8 +122,9 @@ smd_get_local_git_commit_tag <- function(){
   cNumber_repo_date <- gsub("Date:   ", "", gitLog_repo[cLines_repo_date[1]])
 
   # reformat date and time
-  cNumber_time <- substr(cNumber_repo_date,12,19)
-  cNumber_date <- paste(substr(cNumber_repo_date,1,10), substr(cNumber_repo_date,21,24))
+  cNumber_split <- unlist(strsplit(cNumber_repo_date,' '))
+  cNumber_time <- cNumber_split[4]
+  cNumber_date <- paste(cNumber_split[c(1:3,5)],collapse = ' ')
   cNumber_date <- as.Date(cNumber_date,format='%a %h %d %Y')
 
   # commit index
