@@ -4,7 +4,12 @@
 \alias{smd_file_path}
 \title{Get (and create) folder path}
 \usage{
-smd_file_path(...)
+smd_file_path(..., .verbose = TRUE)
+}
+\arguments{
+\item{...}{the directory name(s)}
+
+\item{.verbose}{boolean to print a message if a new folder is created (default: TRUE)}
 }
 \description{
 Get (and create) folder path

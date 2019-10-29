@@ -56,9 +56,13 @@ smd_read_rdata <- function(filename){
 #############################################################################
 
 #' @title Get (and create) folder path
+#'
+#' @param ... the directory name(s)
+#' @param .verbose boolean to print a message if a new folder is created (default: TRUE)
+#'
 #' @keywords external
 #' @export
-smd_file_path <- function(...){
+smd_file_path <- function(...,.verbose=TRUE){
 
   # get file path based on given parameters
   file_path <- file.path(...)
@@ -72,8 +76,10 @@ smd_file_path <- function(...){
 
   # check if the requested folder exist, and create the folder(s) if not
   if(!dir.exists(file_dir)){
-    smd_print('Create directory:',file_dir)
     dir.create(file_dir,recursive = T)
+    if(.verbose) {
+      smd_print('Create directory:',file_dir)
+      }
   }
 
   return(file_path)
