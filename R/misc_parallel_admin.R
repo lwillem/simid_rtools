@@ -26,16 +26,17 @@
 ## START CLUSTER WITH PARALLEL WORKERS
 ################################################################
 #' @title Start parallel working nodes
+#' @param timeout The timeout in seconds for the nodes
 #' @keywords external
 #' @export
-smd_start_cluster <- function()
+smd_start_cluster <- function(timeout = 100)
 {
   smd_print("START PARALLEL WORKERS")
 
   ## SETUP PARALLEL NODES
   # note: they will be removed after 280 seconds inactivity
   num_proc      <- detectCores()
-  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = 100)
+  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = timeout)
   registerDoParallel(par_cluster)
 
   # store the process id (pid) of the first slave

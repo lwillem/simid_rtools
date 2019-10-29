@@ -4,7 +4,10 @@
 \alias{smd_start_cluster}
 \title{Start parallel working nodes}
 \usage{
-smd_start_cluster()
+smd_start_cluster(timeout = 100)
+}
+\arguments{
+\item{timeout}{The timeout in seconds for the nodes}
 }
 \description{
 Start parallel working nodes
