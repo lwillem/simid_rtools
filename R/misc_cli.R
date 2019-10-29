@@ -26,7 +26,6 @@
 #' @param WARNING  boolean, to print the message in red
 #' @param FORCED   boolean, to print the message irrespectively of the parallel thread
 #'
-#' @keywords internal
 #' @export
 smd_print <- function(..., WARNING=F, FORCED=F) {
 
@@ -78,9 +77,8 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 #' @param time_stamp_loop starting time
 #' @param par_nodes_info  info about parallel nodes
 #'
-#' @keywords internal
 #' @export
-smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
+smd_print_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
 
   # print if function is called by first node
   if(!is.na('par_nodes_info') && (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
@@ -101,6 +99,15 @@ smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nod
   }
 }
 
+#' @title Print progress bar [DEPRECATED]
+#'
+#' @description please use smd_print_progress()
+#' @export
+smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
+
+  smd_print('PLEASE USE smd_print_progress() insead of smd_progress()',WARNING = T)
+
+}
 
 #' @title Get default Rstudio console color
 #'

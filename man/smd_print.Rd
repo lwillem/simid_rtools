@@ -17,4 +17,3 @@ smd_print(..., WARNING = F, FORCED = F)
 Command line interface: print message with time tag, if called
 by the master node or first parallel slave
 }
-\keyword{internal}

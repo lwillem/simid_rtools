@@ -2,21 +2,11 @@
 % Please edit documentation in R/misc_cli.R
 \name{smd_progress}
 \alias{smd_progress}
-\title{Print progress bar}
+\title{Print progress bar [DEPRECATED]}
 \usage{
 smd_progress(i_current, i_total, time_stamp_loop = Sys.time(),
   par_nodes_info = NA)
 }
-\arguments{
-\item{i_current}{current iteration}
-
-\item{i_total}{total iterations}
-
-\item{time_stamp_loop}{starting time}
-
-\item{par_nodes_info}{info about parallel nodes}
-}
 \description{
-Progress bar interface
+please use smd_print_progress()
 }
-\keyword{internal}
