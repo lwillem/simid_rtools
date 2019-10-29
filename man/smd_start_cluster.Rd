@@ -4,9 +4,12 @@
 \alias{smd_start_cluster}
 \title{Start parallel working nodes}
 \usage{
-smd_start_cluster()
+smd_start_cluster(.env = .GlobalEnv)
 }
 \description{
 Start parallel working nodes
+}
+\note{
+Pass .GlobalEnv to each node
 }
 \keyword{external}

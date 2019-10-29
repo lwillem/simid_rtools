@@ -26,9 +26,10 @@
 ## START CLUSTER WITH PARALLEL WORKERS
 ################################################################
 #' @title Start parallel working nodes
+#' @note  Pass .GlobalEnv to each node
 #' @keywords external
 #' @export
-smd_start_cluster <- function()
+smd_start_cluster <- function(.env = .GlobalEnv)
 {
   smd_print("START PARALLEL WORKERS")
 
