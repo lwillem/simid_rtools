@@ -9,4 +9,3 @@ smd_check_cluster()
 \description{
 Check parallel working nodes
 }
-\keyword{internal}

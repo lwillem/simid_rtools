@@ -26,10 +26,9 @@
 ## START CLUSTER WITH PARALLEL WORKERS
 ################################################################
 #' @title Start parallel working nodes
-#' @note  Pass .GlobalEnv to each node
 #' @keywords external
 #' @export
-smd_start_cluster <- function(.env = .GlobalEnv)
+smd_start_cluster <- function()
 {
   smd_print("START PARALLEL WORKERS")
 
@@ -43,11 +42,9 @@ smd_start_cluster <- function(.env = .GlobalEnv)
   pid_slave1 <- clusterEvalQ(par_cluster, { Sys.getpid() })[[1]]
 
   # CREATE GLOBAL VARIABLE
-  par_nodes_info <- list(par_cluster = par_cluster,
+  par_nodes_info <<- list(par_cluster = par_cluster,
                           pid_master  = Sys.getpid(),
                           pid_slave1  = pid_slave1)
-
-  return(par_nodes_info)
 }
 
 ################################################################
@@ -63,8 +60,7 @@ smd_stop_cluster <- function()
     smd_print("STOP PARALLEL WORKERS")
 
     stopCluster(par_nodes_info$par_cluster);
-    rm(par_nodes_info,envir = .GlobalEnv) # REMOVE GLOBAL VARIABLE
-
+    rm(par_nodes_info, envir = .GlobalEnv) # REMOVE GLOBAL VARIABLE
   }
 }
 
@@ -72,11 +68,14 @@ smd_stop_cluster <- function()
 ## CHECK IF CLUSTER EXISTS AND START ONE IF NOT
 ################################################################
 #' @title Check parallel working nodes
-#' @keywords internal
+#' @export
 smd_check_cluster <- function(){
   if(!exists('par_nodes_info')){
     smd_start_cluster()
   } else if (!any(grepl(par_nodes_info$pid_slave1,system('ps -A',intern = T)))){
     smd_start_cluster()
   }
+
+  # return par_nodes_info
+  return(par_nodes_info)
 }
