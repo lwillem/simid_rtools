@@ -1,7 +1,7 @@
 Package: simid.rtools
 Type: Package
 Title: SIMID R tools and tutorials
-Version: 0.1.36
+Version: 0.1.37
 Author: Lander Willem
 Maintainer: Lander Willem <lander.willem@uantwerp.be>
 Description: Extension of existing R functions to ease parallel processing, command line messaging, XML functions, git-repository admin, ... And a container for tutorials on e.g. bootstrapping and cost-effectiveness analysis.
@@ -10,4 +10,4 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-PreviousCommit: 978f44a71b (#40) [2019-10-30 17:54:58]
+PreviousCommit: 32f44907f3 (#41) [2019-11-15 10:19:29]
