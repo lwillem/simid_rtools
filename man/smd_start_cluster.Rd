@@ -11,6 +11,9 @@ smd_start_cluster(timeout = 100, num_proc = detectCores())
 
 \item{num_proc}{The number of parallel workers to start (default: number of CPU cores)}
 }
+\value{
+Cluster info, also available as global variable 'par_nodes_info'
+}
 \description{
 Start parallel working nodes
 }

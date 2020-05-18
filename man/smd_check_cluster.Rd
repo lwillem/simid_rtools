@@ -2,10 +2,13 @@
 % Please edit documentation in R/misc_parallel_admin.R
 \name{smd_check_cluster}
 \alias{smd_check_cluster}
-\title{Check parallel working nodes}
+\title{Check parallel working nodes, and start a cluster if not present yet.}
 \usage{
 smd_check_cluster()
 }
+\value{
+Cluster info
+}
 \description{
-Check parallel working nodes
+Check parallel working nodes, and start a cluster if not present yet.
 }

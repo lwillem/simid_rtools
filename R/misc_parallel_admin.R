@@ -1,4 +1,4 @@
-#############################################################################
+############################################################################ #
 # PARALLEL ADMIN
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,30 +14,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
-#############################################################################
+# Copyright (C) 2020 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+############################################################################ #
 #' @import doParallel
 #' @import parallel
 #' @import foreach
 #' @import iterators
 
 
-################################################################
-## START CLUSTER WITH PARALLEL WORKERS
-################################################################
+############################################################### #
+## START CLUSTER WITH PARALLEL WORKERS ----
+############################################################### #
 #' @title Start parallel working nodes
 #' @param timeout The timeout in seconds for the nodes
 #' @param num_proc The number of parallel workers to start (default: number of CPU cores)
+#' @return Cluster info, also available as global variable 'par_nodes_info'
 #' @keywords external
 #' @export
 smd_start_cluster <- function(timeout = 100, num_proc = detectCores())
 {
   smd_print("START PARALLEL WORKERS")
-  print(num_proc)
+
   # check num_proc for NA, max and min... and use default if needed
   if(is.na(num_proc) || num_proc > detectCores() || num_proc < 1){
     num_proc <- detectCores()
-    smd_print("Number of workers to 'smd_start_cluster()' not valid. Changed to number of CPU cores",WARNING = T)
+    smd_print("Number of workers given to 'smd_start_cluster()' is not valid, so num_proc changed to number of CPU cores",WARNING = T)
   }
 
   ## SETUP PARALLEL NODES
@@ -55,9 +56,9 @@ smd_start_cluster <- function(timeout = 100, num_proc = detectCores())
 }
 
 
-################################################################
-## STOP CLUSTER WITH PARALLEL WORKERS
-################################################################
+############################################################### #
+## STOP CLUSTER WITH PARALLEL WORKERS ----
+############################################################### #
 #' @title Stop parallel working nodes
 #' @keywords external
 #' @export
@@ -72,12 +73,14 @@ smd_stop_cluster <- function()
   }
 }
 
-################################################################
-## CHECK IF CLUSTER EXISTS AND START ONE IF NOT
-################################################################
-#' @title Check parallel working nodes
+############################################################### #
+## CHECK IF CLUSTER EXISTS AND START ONE IF NOT PRESENT----
+############################################################### #
+#' @title Check parallel working nodes, and start a cluster if not present yet.
+#' @return Cluster info
 #' @export
-smd_check_cluster <- function(){
+smd_check_cluster <- function()
+{
   if(!exists('par_nodes_info')){
     smd_start_cluster()
   } else if (!any(grepl(par_nodes_info$pid_slave1,system('ps -A',intern = T)))){
