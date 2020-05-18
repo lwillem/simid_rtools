@@ -27,15 +27,21 @@
 ################################################################
 #' @title Start parallel working nodes
 #' @param timeout The timeout in seconds for the nodes
+#' @param num_proc The number of parallel workers to start (default: number of CPU cores)
 #' @keywords external
 #' @export
-smd_start_cluster <- function(timeout = 100)
+smd_start_cluster <- function(timeout = 100, num_proc = detectCores())
 {
   smd_print("START PARALLEL WORKERS")
+  print(num_proc)
+  # check num_proc for NA, max and min... and use default if needed
+  if(is.na(num_proc) || num_proc > detectCores() || num_proc < 1){
+    num_proc <- detectCores()
+    smd_print("Number of workers to 'smd_start_cluster()' not valid. Changed to number of CPU cores",WARNING = T)
+  }
 
   ## SETUP PARALLEL NODES
-  # note: they will be removed after 280 seconds inactivity
-  num_proc      <- detectCores()
+  # note: they will be removed after 100 seconds inactivity
   par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = timeout)
   registerDoParallel(par_cluster)
 
@@ -47,6 +53,7 @@ smd_start_cluster <- function(timeout = 100)
                           pid_master  = Sys.getpid(),
                           pid_slave1  = pid_slave1)
 }
+
 
 ################################################################
 ## STOP CLUSTER WITH PARALLEL WORKERS
