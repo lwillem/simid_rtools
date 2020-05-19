@@ -4,12 +4,12 @@
 \alias{smd_start_cluster}
 \title{Start parallel working nodes}
 \usage{
-smd_start_cluster(timeout = 100, num_proc = detectCores())
+smd_start_cluster(timeout = 100, num_proc = NA)
 }
 \arguments{
 \item{timeout}{The timeout in seconds for the nodes}
 
-\item{num_proc}{The number of parallel workers to start (default: number of CPU cores)}
+\item{num_proc}{The number of parallel workers to start (NA = default, number of CPU cores)}
 }
 \value{
 Cluster info, also available as global variable 'par_nodes_info'
