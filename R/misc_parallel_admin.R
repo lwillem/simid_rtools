@@ -27,18 +27,22 @@
 ############################################################### #
 #' @title Start parallel working nodes
 #' @param timeout The timeout in seconds for the nodes
-#' @param num_proc The number of parallel workers to start (default: number of CPU cores)
+#' @param num_proc The number of parallel workers to start (NA = default, number of CPU cores)
 #' @return Cluster info, also available as global variable 'par_nodes_info'
 #' @keywords external
 #' @export
-smd_start_cluster <- function(timeout = 100, num_proc = detectCores())
+smd_start_cluster <- function(timeout = 100, num_proc = NA)
 {
   smd_print("START PARALLEL WORKERS")
 
-  # check num_proc for NA, max and min... and use default if needed
-  if(is.na(num_proc) || num_proc > detectCores() || num_proc < 1){
+  if(is.na(num_proc)){
     num_proc <- detectCores()
-    smd_print("Number of workers given to 'smd_start_cluster()' is not valid, so num_proc changed to number of CPU cores",WARNING = T)
+  }
+
+  # check num_proc max and min... and use default if needed
+  if(num_proc > detectCores() || num_proc < 1){
+    num_proc <- detectCores()
+    smd_print("Number of workers given to 'smd_start_cluster()' is not valid, so used number of CPU cores",WARNING = T)
   }
 
   ## SETUP PARALLEL NODES
