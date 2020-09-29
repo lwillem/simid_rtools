@@ -36,9 +36,10 @@ smd_increment_package_version_number <- function(root_folder = ".") {
 #' with the latest git commit number in the repository. If not, update the version and git info
 #'
 #' @param root_folder the root folder of the software project
+#' @param misc_info misc info to complete the description file (e.g. unit test info). Works only with values with a (col)name such as c(test='OK') and is empty by default.
 #'
 #' @export
-smd_update_description_file <- function(root_folder = ".") {
+smd_update_description_file <- function(root_folder = ".", misc_info = '') {
 
     # set description filename: with or without extension
     description_filename <- dir(root_folder,pattern = "DESCRIPTION",full.names=T)
@@ -100,6 +101,26 @@ smd_update_description_file <- function(root_folder = ".") {
 
         } else {
             cat("**** version number OK", fill = T)
+        }
+
+        # if 'misc info' is present... add to (or update) description file
+        if(all(!is.na(misc_info)) & any(nchar(misc_info)>0)){
+
+          #loop over elements of misc_info
+          i_misc <- 1
+          for(i_misc in 1:length(misc_info)){
+
+            ## Get the DESCRIPTION misc info line number
+            mTag <- paste0("^",names(misc_info)[i_misc],"\\:")
+            mLine   <- grep(mTag, desc)
+            if(length(mLine)==0) {mLine <- length(desc)+1}
+
+            # add/update
+            desc[mLine] <- paste0(names(misc_info)[i_misc],": ",misc_info[i_misc])
+          }
+
+          # write to file
+          writeLines(desc, description_filename)
         }
     }
 }
