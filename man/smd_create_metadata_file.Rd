@@ -4,9 +4,17 @@
 \alias{smd_create_metadata_file}
 \title{Create a text file with METADATA}
 \usage{
-smd_create_metadata_file(output_dir, data_file = NA, run_tag = NA,
-  run_time = NA, root_dir = ".", other_info = NA, file_prefix = "",
-  main_title = NA, sub_title = "PROCESSING DETAILS")
+smd_create_metadata_file(
+  output_dir,
+  data_file = NA,
+  run_tag = NA,
+  run_time = NA,
+  root_dir = ".",
+  other_info = NA,
+  file_prefix = "",
+  main_title = NA,
+  sub_title = "PROCESSING DETAILS"
+)
 }
 \arguments{
 \item{output_dir}{the directory where the new file will be created.}

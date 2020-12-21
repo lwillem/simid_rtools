@@ -3,11 +3,7 @@
 \docType{package}
 \name{simid.rtools}
 \alias{simid.rtools}
-\alias{simid.rtools-package}
 \title{simid.rtools: Extended R functions.}
-\description{
-simid.rtools: Extended R functions.
-}
 \author{
 Lander Willem [lander.willem@uantwerpen.be]
 }

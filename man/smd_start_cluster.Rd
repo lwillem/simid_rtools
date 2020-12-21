@@ -17,4 +17,7 @@ Cluster info, also available as global variable 'par_nodes_info'
 \description{
 Start parallel working nodes
 }
+\note{
+Explicitly setup the PSOCK cluster using the 'sequential' setup strategy, to prevent an error in RStudio on macOS with R 4.0.x (https://github.com/rstudio/rstudio/issues/6692)
+}
 \keyword{external}

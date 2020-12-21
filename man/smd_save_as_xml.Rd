@@ -4,8 +4,12 @@
 \alias{smd_save_as_xml}
 \title{Save a list as XML file with given root node}
 \usage{
-smd_save_as_xml(data_list, root_name, file_name_prefix = "data",
-  xml_prefix = NULL)
+smd_save_as_xml(
+  data_list,
+  root_name,
+  file_name_prefix = "data",
+  xml_prefix = NULL
+)
 }
 \arguments{
 \item{data_list}{the list to be stored}

@@ -4,8 +4,12 @@
 \alias{smd_progress}
 \title{Print progress bar [DEPRECATED]}
 \usage{
-smd_progress(i_current, i_total, time_stamp_loop = Sys.time(),
-  par_nodes_info = NA)
+smd_progress(
+  i_current,
+  i_total,
+  time_stamp_loop = Sys.time(),
+  par_nodes_info = NA
+)
 }
 \description{
 please use smd_print_progress()

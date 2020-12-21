@@ -31,6 +31,7 @@
 #' @return Cluster info, also available as global variable 'par_nodes_info'
 #' @keywords external
 #' @export
+#' @note Explicitly setup the PSOCK cluster using the 'sequential' setup strategy, to prevent an error in RStudio on macOS with R 4.0.x (https://github.com/rstudio/rstudio/issues/6692)
 smd_start_cluster <- function(timeout = 100, num_proc = NA)
 {
   smd_print("START PARALLEL WORKERS")
@@ -47,7 +48,7 @@ smd_start_cluster <- function(timeout = 100, num_proc = NA)
 
   ## SETUP PARALLEL NODES
   # note: they will be removed after 100 seconds inactivity
-  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = timeout)
+  par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = timeout, setup_strategy = "sequential")
   registerDoParallel(par_cluster)
 
   # store the process id (pid) of the first slave

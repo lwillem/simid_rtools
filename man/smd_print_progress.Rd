@@ -4,8 +4,12 @@
 \alias{smd_print_progress}
 \title{Print progress bar}
 \usage{
-smd_print_progress(i_current, i_total, time_stamp_loop = Sys.time(),
-  par_nodes_info = NA)
+smd_print_progress(
+  i_current,
+  i_total,
+  time_stamp_loop = Sys.time(),
+  par_nodes_info = NA
+)
 }
 \arguments{
 \item{i_current}{current iteration}
