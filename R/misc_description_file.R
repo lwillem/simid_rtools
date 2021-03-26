@@ -118,10 +118,14 @@ smd_update_description_file <- function(root_folder = ".", misc_info = '') {
             # add/update
             desc[mLine] <- paste0(names(misc_info)[i_misc],": ",misc_info[i_misc])
           }
-
-          # write to file
-          writeLines(desc, description_filename)
         }
+
+        # Update system info
+        desc[grep("^SessionInfo1\\:", desc)] <- paste0("SessionInfo1: ", sessionInfo()$R.version$version.string)
+        desc[grep("^SessionInfo2\\:", desc)] <- paste0("SessionInfo2: ", sessionInfo()$running)
+
+        # write to file
+        writeLines(desc, description_filename)
     }
 }
 
