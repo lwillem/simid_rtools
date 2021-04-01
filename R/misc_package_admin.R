@@ -23,6 +23,7 @@
 #' simid.rtools: Extended R functions.
 #
 #' @author  Lander Willem [lander.willem@uantwerpen.be]
+#' @description Package with common R functions for different projects within SIMID.
 #' @docType package
 #' @name simid.rtools
 #' @keywords internal

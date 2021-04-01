@@ -101,6 +101,11 @@ smd_print_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),p
 
 #' @title Print progress bar [DEPRECATED]
 #'
+#' @param i_current       current iteration
+#' @param i_total         total iterations
+#' @param time_stamp_loop starting time
+#' @param par_nodes_info  info about parallel nodes
+#'
 #' @description please use smd_print_progress()
 #' @export
 smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){

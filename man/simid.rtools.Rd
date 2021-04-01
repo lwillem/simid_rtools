@@ -4,6 +4,9 @@
 \name{simid.rtools}
 \alias{simid.rtools}
 \title{simid.rtools: Extended R functions.}
+\description{
+Package with common R functions for different projects within SIMID.
+}
 \author{
 Lander Willem [lander.willem@uantwerpen.be]
 }

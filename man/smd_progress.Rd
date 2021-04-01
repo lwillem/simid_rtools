@@ -11,6 +11,15 @@ smd_progress(
   par_nodes_info = NA
 )
 }
+\arguments{
+\item{i_current}{current iteration}
+
+\item{i_total}{total iterations}
+
+\item{time_stamp_loop}{starting time}
+
+\item{par_nodes_info}{info about parallel nodes}
+}
 \description{
 please use smd_print_progress()
 }
