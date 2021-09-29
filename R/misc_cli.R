@@ -53,6 +53,7 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 
   # print if function is called by master-node or first slave
   if(!exists('par_nodes_info') ||
+     is.na(par_nodes_info) ||
      Sys.getpid() == par_nodes_info$pid_master ||
      FORCED){
       system(cli_out)
@@ -80,8 +81,8 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 #' @export
 smd_print_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
 
-  # print if function is called by first node
-  if(!is.na('par_nodes_info') && (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
+  # print if function is called by first node (= or serial mode)
+  if(is.na(par_nodes_info) || (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
 
     # calculate progress
     progress_scen        <- floor(i_current/i_total*100)
