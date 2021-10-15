@@ -2,22 +2,22 @@
 # VSC TUTORIAL
 #
 # - summary: dummy code to save a pdf with some dots
-# - option to change output directory to VSC_SCRATCH 
+# - option to change output directory to VSC_SCRATCH
 # - option to use command line arguments
-# - use RStudio file document outline 
+# - use RStudio file document outline
 #
 # Author: Willem Lander
-# Last update: 14/10/2021
+# Last update: 15/10/2021
 ####################################### #
 
-# parse command line interface (CLI) arguments 
+# parse command line interface (CLI) arguments
 cli_args = commandArgs(trailingOnly=TRUE)
 
 # clear workspace, but leave the command line arguments
 rm(list=ls()[ls()!='cli_args'])
 
 # message for the user
-print('START SCRIPT: job1c.R')
+print('START SCRIPT: r_script_3.R')
 
 library(foreach)
 
@@ -63,7 +63,7 @@ smd_start_cluster(num_proc = num_chains)
 # note: change 'dopar' into 'do' to run sequentially
 # note: change 'do' into 'dopar' to run in parallel
 foreach(i_chain = 1:num_chains) %dopar% {
-  system(paste('Rscript job1b.R ',num_dots,paste(run_tag,i_chain,sep='_')))
+  system(paste('Rscript r_script_2.R ',num_dots,paste(run_tag,i_chain,sep='_')))
 }
 
 ## CLOSE ####
@@ -73,6 +73,6 @@ foreach(i_chain = 1:num_chains) %dopar% {
 smd_stop_cluster()
 
 # message for the user
-print('END SCRIPT: job1c.R')
+print('END SCRIPT: r_script_3.R')
 
 

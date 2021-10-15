@@ -1,4 +1,5 @@
-This folder contains some examples to submit "jobs" on the VSC cluster Vaughan at the University of Antwerp to run R scripts.
+This folder contains some examples to submit "jobs" on the VSC cluster Vaughan 
+at the University of Antwerp to run R scripts.
 
 Files:
 r_script_1.R	 	basic R script to generate a pdf figure
@@ -22,14 +23,16 @@ sbatch ./job_vaughan_parallel.sh
 
 
 Some general advice:
+- code development has to be completed on your local computer
 - run your R script first in an interactive job, to make sure all R libraries are installed and the file paths are working
-- your code and model input is best stored in your DATA folder ($VSC_DATA)
+- your code and model input should be stored in your DATA folder ($VSC_DATA)
 - your model output should be stored in your SCRATCH folder ($VSC_SCRATCH)
 - the (R) output of the job is stored in a .txt file with a file name based on the job ID 
 - make sure you update the email address in the job script
 - make sure you adapt the "--ntasks=1" to the required number of CPU's for parallel processes
+- the cluster is best suited to run parallel scripts with shared memory for one script or to start multiple in parallel, to obtain the output of X runs in the same time of 1 run.
 
-useful linux commands:
+Useful linux commands:
 - cd 			change directory
 - .. 			one folder up
 - .			current folder
