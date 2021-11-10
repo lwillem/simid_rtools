@@ -1,5 +1,5 @@
 This folder contains some examples to submit "jobs" on the VSC cluster Vaughan 
-at the University of Antwerp to run R scripts.
+at the University of Antwerp to run e.g. R code
 
 Files:
 r_script_1.R	 	basic R script to generate a pdf figure
@@ -13,13 +13,16 @@ job_vaughan_single.sh	bash script to set the environment for r_script_1.R
 job_vaughan_multi.sh	bash script to set the environment for r_script_1.R
 			and r_script_2.R and to run the code in parallel.
 job_vaughan_parallel.sh	bash script to set the environment for r_script_3.R
-			to run the parallel code.
+			and to run the parallel code.
+job_vaughan_param.sh	bash script to run r_script_2.R with command line
+			interface parameters and specific job-name.
 
 
 To submit a job (best to explore them in this order)
 sbatch ./job_vaughan_single.sh 
 sbatch ./job_vaughan_multi.sh 
 sbatch ./job_vaughan_parallel.sh 
+sbatch --job-name=param_script --export=ALL,N=40 job_vaughan_param.sh
 
 
 Some general advice:
@@ -31,6 +34,15 @@ Some general advice:
 - make sure you update the email address in the job script
 - make sure you adapt the "--ntasks=1" to the required number of CPU's for parallel processes
 - the cluster is best suited to run parallel scripts with shared memory for one script or to start multiple in parallel, to obtain the output of X runs in the same time of 1 run.
+
+Information on parallel setup
+- if you want one process that can use 16 cores for multithreading: --ntasks=1 --cpus-per-task=16
+- if you want to launch 16 independent processes (no communication): --ntasks=16
+- if you use mpi and do not care about where those cores are distributed: --ntasks=16
+
+Useful links on VSC and CalcUA
+- https://docs.vscentrum.be
+- https://www.uantwerpen.be/en/core-facilities/calcua/training/
 
 Useful linux commands:
 - cd 			change directory
@@ -50,6 +62,6 @@ Useful slurm job commands:
 
 
 ############################################################
-## (Lander Willem, 15/10/2021, lander.willem@uantwerp.be) ##
+##  Lander Willem, 10/11/2021, lander.willem@uantwerp.be  ##
 ############################################################
  
