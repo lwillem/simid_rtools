@@ -17,12 +17,19 @@ job_vaughan_parallel.sh	bash script to set the environment for r_script_3.R
 job_vaughan_param.sh	bash script to run r_script_2.R with command line
 			interface parameters and specific job-name.
 
+vaughan_load.sh		bash script to locate in your VSC_HOME folder to 
+			easily load your default modules and change directory
+			your VSC_DATA folder. (You might need to set this file
+			as an executable, see comments in the .sh file)
 
 To submit a job (best to explore them in this order)
 sbatch ./job_vaughan_single.sh 
 sbatch ./job_vaughan_multi.sh 
 sbatch ./job_vaughan_parallel.sh 
 sbatch --job-name=param_script --export=ALL,N=40 job_vaughan_param.sh
+
+To run the initial bash script
+. ./vaughan_load.sh
 
 
 Some general advice:
