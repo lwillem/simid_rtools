@@ -13,7 +13,7 @@
 #SBATCH --mail-user=xxx.xxx@uantwerpen.be
 #SBATCH --mail-type=END
 #SBATCH -t 00:05:00
-#SBATCH --ntasks=1 --cpus-per-task=1
+#SBATCH --ntasks=3 --cpus-per-task=1
 
 # actual script content:
 
