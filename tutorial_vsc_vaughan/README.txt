@@ -31,7 +31,6 @@ sbatch --job-name=param_script --export=ALL,N=40 job_vaughan_param.sh
 To run the initial bash script
 . ./vaughan_load.sh
 
-
 Some general advice:
 - code development has to be completed on your local computer
 - run your R script first in an interactive job, to make sure all R libraries are installed and the file paths are working
@@ -58,8 +57,9 @@ Useful linux commands:
 - pwd			current path
 - exit			to leave the cluster
 - ssh			to connect to the cluster
-- cd $VSC_DATA		go to your DATA folder on the cluster
-- cd $VSC_SCRATCH	go to your SCRATCH folder on the cluster
+- cd $VSC_DATA		go to your DATA folder on the VSC cluster
+- cd $VSC_SCRATCH	go to your SCRATCH folder on the VSC cluster
+- cd $VSC_HOME		go to your HOME folder on the VSC cluster
 
 Useful slurm job commands:
 - sbatch <filename>	to submit a job(file)
