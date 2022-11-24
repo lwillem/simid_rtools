@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 20220 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 ############################################################################ #
 #' @import doParallel
 #' @import parallel
@@ -42,8 +42,8 @@ smd_start_cluster <- function(timeout = 100, num_proc = NA)
 
   # check num_proc max and min... and use default if needed
   if(num_proc > detectCores() || num_proc < 1){
+    smd_print(paste0("Requested number workers in 'smd_start_cluster()' (=",num_proc,") is not valid, so the number of CPU cores (=",detectCores(),") is used."),WARNING = T)
     num_proc <- detectCores()
-    smd_print("Number of workers given to 'smd_start_cluster()' is not valid, so used number of CPU cores",WARNING = T)
   }
 
   ## SETUP PARALLEL NODES

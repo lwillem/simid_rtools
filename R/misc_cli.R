@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2022 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Print (warning) message to Console
@@ -53,7 +53,7 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 
   # print if function is called by master-node or first slave
   if(!exists('par_nodes_info') ||
-     is.na(par_nodes_info) ||
+     any(is.na(par_nodes_info)) ||
      Sys.getpid() == par_nodes_info$pid_master ||
      FORCED){
       system(cli_out)
