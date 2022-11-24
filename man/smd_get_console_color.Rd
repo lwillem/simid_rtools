@@ -7,7 +7,7 @@
 smd_get_console_color(WARNING = FALSE)
 }
 \description{
-The default color of the console (or terminal) depends on whether R(studio)
+The default color of the console (or terminal) depends on whether Rstudio
 is used in DARK mode. This function return 'black' or 'white', based on the current theme.
 If the function is used in R, an empty color is returned.
 }

@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2022 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 
@@ -28,7 +28,7 @@
 #' @param run_time    the run time (optional).
 #' @param root_dir    the root directory, with a DESCRIPTION or METADATA file to start from (default = '.')
 #' @param other_info  additional info to include (optional).
-#' @param data_file   the corresponding DATA file, to create a correspoding file name for the METADATA file (optional).
+#' @param data_file   the corresponding DATA file, to create a corresponding file name for the METADATA file (optional).
 #' @param main_title  new 'Title' of the METADATA file (optional).
 #' @param sub_title   subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS).
 #'
@@ -42,7 +42,7 @@ smd_create_metadata_file <- function(output_dir, data_file = NA, run_tag = NA,
   metadata_filename <- "METADATA.txt"
 
   # if data_file provided, create new name based on the data_file
-  # else, if file_prexis provided, add to name
+  # else, if file_prefix provided, add to name
   if(!is.na(data_file)){
     # get data file name without extension
     data_file_name <- file_path_sans_ext(data_file)

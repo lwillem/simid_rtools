@@ -19,12 +19,12 @@
 
 #' @title Print (warning) message to Console
 #'
-#' @description Command line interface: print message with time tag, if called
+#' @description Command line interface: print message with time tag if called
 #' by the master node or first parallel slave
 #'
 #' @param ... (parts of the) message to print
 #' @param WARNING  boolean, to print the message in red
-#' @param FORCED   boolean, to print the message irrespectively of the parallel thread
+#' @param FORCED   boolean, to print the message regardless of the parallel thread
 #'
 #' @export
 smd_print <- function(..., WARNING=F, FORCED=F) {
@@ -82,7 +82,7 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 smd_print_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
 
   # print if function is called by first node (= or serial mode)
-  if(is.na(par_nodes_info) || (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
+  if(any(is.na(par_nodes_info)) || (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
 
     # calculate progress
     progress_scen        <- floor(i_current/i_total*100)
@@ -117,7 +117,7 @@ smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nod
 
 #' @title Get default Rstudio console color
 #'
-#' @description The default color of the console (or terminal) depends on whether R(studio)
+#' @description The default color of the console (or terminal) depends on whether Rstudio
 #' is used in DARK mode. This function return 'black' or 'white', based on the current theme.
 #' If the function is used in R, an empty color is returned.
 #'

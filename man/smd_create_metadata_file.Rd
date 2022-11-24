@@ -19,7 +19,7 @@ smd_create_metadata_file(
 \arguments{
 \item{output_dir}{the directory where the new file will be created.}
 
-\item{data_file}{the corresponding DATA file, to create a correspoding file name for the METADATA file (optional).}
+\item{data_file}{the corresponding DATA file, to create a corresponding file name for the METADATA file (optional).}
 
 \item{run_tag}{the tag to specify the model run (optional).}
 
