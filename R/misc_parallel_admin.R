@@ -14,12 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 20220 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 ############################################################################ #
 #' @import doParallel
 #' @import parallel
 #' @import foreach
 #' @import iterators
+#' @import ps
 
 
 ############################################################### #
@@ -88,7 +89,7 @@ smd_check_cluster <- function()
 {
   if(!exists('par_nodes_info')){
     smd_start_cluster()
-  } else if (!any(grepl(par_nodes_info$pid_slave1,system('ps -A',intern = T)))){
+  } else if (!any(grepl(par_nodes_info$pid_slave1,ps()$pid))){
     smd_start_cluster()
   }
 
