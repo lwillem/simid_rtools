@@ -1,4 +1,4 @@
-#############################################################################
+############################################################################ #
 # SIMID TUTORIAL: GENERAL ISSUES
 #
 # This program is free software: you can redistribute it and/or modify
@@ -6,8 +6,8 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
-#############################################################################
+# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+############################################################################ #
 
 # clear workspace
 rm(list=ls())
@@ -17,9 +17,9 @@ rm(list=ls())
 # setwd("/Users/path/to/the/rcode/folder") ## MAC
 
 
-# ###################
-#  SETUP
-# ###################
+################### #
+#  SETUP ----
+################### #
 print('SETUP PARAMETERS: START')
 
 # set random number generator
@@ -61,21 +61,25 @@ boxplot(num_contacts ~ age, data = pop_data)
 
 print('SETUP PARAMETERS: COMPLETE')
 #' \newpage
-# ################### #
-#  SPEED              #
-# ################### #
+#################### #
+#  SPEED ----
+#################### #
 print('SPEED TESTS: START')
 
 # for-loop
-pop_data$is_male_adult <- FALSE
-for(i_person in 1:pop_size){
-  if(pop_data$age[i_person] >= adult_age & pop_data$gender[i_person] == gender_male){
-    pop_data$is_male_adult[i_person] <- TRUE
+print(system.time({ # start manual profiling
+  pop_data$is_male_adult <- FALSE
+  for(i_person in 1:pop_size){
+    if(pop_data$age[i_person] >= adult_age & pop_data$gender[i_person] == gender_male){
+      pop_data$is_male_adult[i_person] <- TRUE
+    }
   }
-}
+}))
 
 # vector operation
-pop_data$is_male_adult <- pop_data$age >= adult_age & pop_data$gender == gender_male
+print(system.time( # start manual profiling
+  pop_data$is_male_adult <- pop_data$age >= adult_age & pop_data$gender == gender_male
+))
 
 # define help function
 is_adult <- function(x,adult_age){
@@ -83,17 +87,21 @@ is_adult <- function(x,adult_age){
   }
 
 # use 'lapply'
-dummy <- unlist(lapply(pop_data$age,is_adult,adult_age))
-
+print(system.time( # start manual profiling
+  dummy <- unlist(lapply(pop_data$age,is_adult,adult_age))
+))
 # use vector operation
-dummy <- pop_data$age >= adult_age
-dummy <- is_adult(pop_data$age,adult_age)
-
+print(system.time( # start manual profiling
+  dummy <- pop_data$age >= adult_age
+))
+print(system.time( # start manual profiling
+  dummy <- is_adult(pop_data$age,adult_age)
+))
 print('SPEED TESTS: COMPLETE')
 #' \newpage
-# ###################
-#  RANDOM NUMBERS
-# ###################
+################### #
+# RANDOM NUMBERS ----
+################### #
 print('RANDOM NUMBER SECTION: START')
 
 # SITUATION 1: seed RNG once
@@ -120,9 +128,9 @@ abs(cor(age_multiple,zipcode_multiple))  # reproducibility?
 
 print('RANDOM NUMBER SECTION: COMPLETE')
 #' \newpage
-# ###################
-#  PARAMETER SWEEP
-# ###################
+################### #
+#  PARAMETER SWEEP ----
+################### #
 print('PARAMETER SWEEP: START')
 
 # get all combinations
@@ -150,9 +158,9 @@ exp_design_random_extended  <- randomLHS(num_param*40,num_exp)
 
 print('PARAMETER SWEEP: COMPLETE')
 #' \newpage
-# ###################
-#  COPY/PASTE...
-# ###################
+################### #
+# COPY/PASTE ----
+################### #
 print('COPY/PASTE: START')
 
 # e.g. column names
@@ -166,9 +174,9 @@ length(col_names)
 
 print('COPY/PASTE: COMPLETE')
 #' \newpage
-# ###################
-# COLUMN NAMES...
-# ###################
+################### #
+# COLUMN NAMES ----
+################### #
 print('COLUMN NAMES: START')
 
 names(pop_data)

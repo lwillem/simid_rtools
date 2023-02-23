@@ -1,4 +1,4 @@
-#############################################################################
+############################################################################ #
 # SIMID TUTORIAL: BOOTSTRAP & PARALLEL PROGRAMMING
 #
 # This program is free software: you can redistribute it and/or modify
@@ -6,8 +6,8 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
-#############################################################################
+# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+############################################################################ #
 
 # clear workspace
 rm(list=ls())
@@ -16,9 +16,9 @@ rm(list=ls())
 # setwd("C:\User\path\to\the\rcode\folder") ## WINDOWS
 # setwd("/Users/path/to/the/rcode/folder") ## MAC
 
-# ###################
-#  SETUP
-# ###################
+################################### #
+#  SETUP ----
+################################### #
 print('SETUP PARAMETERS: START')
 
 # set random number generator
@@ -60,9 +60,9 @@ boxplot(num_contacts ~ age, data = pop_data)
 
 print('SETUP PARAMETERS: COMPLETE')
 #' \newpage
-# ###################
-#  BOOTSTRAP: FOR-LOOP
-# ###################
+################################### #
+# BOOTSTRAP: FOR-LOOP ----
+################################### #
 print('BOOTSTRAPS: START')
 
 num_bootstraps <- 500
@@ -79,7 +79,7 @@ for(i_bootstrap in 1:num_bootstraps){
   # get mean age by community and gender
   summary_num_contacts <- aggregate(num_contacts ~ age + gender, data = pop_bootstrap, mean)
 
-  # aggregte results: data.frame
+  # aggregate results: data.frame
   out_data_frame       <- data.frame(i_bootstrap,
                                      summary_num_contacts)
 
@@ -100,9 +100,9 @@ for(i_bootstrap in 1:num_bootstraps){
 
 print('BOOTSTRAPS: COMPLETE')
 #' \newpage
-# ###################
-#  SEQUENTIAL FOREACH
-# ###################
+################################### #
+# SEQUENTIAL FOREACH ----
+################################### #
 print('SEQUENTIAL FOREACH: START')
 library('foreach')
 
@@ -120,7 +120,7 @@ bootstrap_out <- foreach(i_bootstrap = 1:num_bootstraps,
   # get mean age by community and gender
   summary_num_contacts <- aggregate(num_contacts ~ age + gender, data = pop_bootstrap, mean)
 
-  # aggregte results: data.frame
+  # aggregate results: data.frame
   out_data_frame       <- data.frame(i_bootstrap,
                                      summary_num_contacts)
 
@@ -134,9 +134,9 @@ boxplot(num_contacts ~  age, data=bootstrap_out)
 
 print('BOOTSTRAPS: COMPLETE')
 #' \newpage
-# ###################
-#  PARALLEL FOREACH
-# ###################
+################################### #
+#  PARALLEL FOREACH ----
+################################### #
 print('PARALLEL FOREACH')
 
 # load package 'devtools'
@@ -152,7 +152,8 @@ simid.rtools::smd_start_cluster()
 print(system.time( # manual profiling
 # run loop in parallel
 bootstrap_out <- foreach(i_bootstrap = 1:num_bootstraps,
-                         .combine      = 'rbind') %dopar%{
+                         .packages   = NULL,  # make sure you add the required packages
+                         .combine    = 'rbind') %dopar%{
    # set RGN seed per bootstrap, so the processing sequence does not affect the results
    set.seed(rng_seed + i_bootstrap)
 
@@ -162,7 +163,7 @@ bootstrap_out <- foreach(i_bootstrap = 1:num_bootstraps,
    # get mean age by community and gender
    summary_num_contacts <- aggregate(num_contacts ~ age + gender, data = pop_bootstrap, mean)
 
-   # aggregte results: data.frame
+   # aggregate results: data.frame
    out_data_frame       <- data.frame(i_bootstrap,
                                       summary_num_contacts)
    # return results
