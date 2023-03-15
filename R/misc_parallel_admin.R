@@ -65,17 +65,20 @@ smd_start_cluster <- function(timeout = 100, num_proc = NA)
 ############################################################### #
 ## STOP CLUSTER WITH PARALLEL WORKERS ----
 ############################################################### #
-#' @title Stop parallel working nodes
+#' @title Stop parallel working nodes (if still active)
 #' @keywords external
 #' @export
 smd_stop_cluster <- function()
 {
-  ## CLOSE NODES AND NODE INFO
+  ## check if global variable of existing working nodes is present
   if(exists('par_nodes_info')){
-    smd_print("STOP PARALLEL WORKERS")
-
-    stopCluster(par_nodes_info$par_cluster);
-    rm(par_nodes_info, envir = .GlobalEnv) # REMOVE GLOBAL VARIABLE
+    # check if parallel workers still exist (i.e. not removed after inactivity)
+    if(par_nodes_info$pid_slave1 %in% ps()$pid){
+      smd_print("STOP PARALLEL WORKERS")
+      stopCluster(par_nodes_info$par_cluster);
+    }
+    # remove global variable
+    rm(par_nodes_info, envir = .GlobalEnv)
   }
 }
 

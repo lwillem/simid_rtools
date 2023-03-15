@@ -2,11 +2,11 @@
 % Please edit documentation in R/misc_parallel_admin.R
 \name{smd_stop_cluster}
 \alias{smd_stop_cluster}
-\title{Stop parallel working nodes}
+\title{Stop parallel working nodes (if still active)}
 \usage{
 smd_stop_cluster()
 }
 \description{
-Stop parallel working nodes
+Stop parallel working nodes (if still active)
 }
 \keyword{external}
