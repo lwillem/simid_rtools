@@ -14,19 +14,15 @@
 #SBATCH -t 00:05:00
 #SBATCH --ntasks=1 --cpus-per-task=1
 
-# actual script content:
+# actual job content:
 
 # change directory and load modules
 cd ${VSC_DATA}/tutorial_vsc_vaughan/
 module load buildtools/2020a
 module load R/4.0.2-intel-2020a
 
-# start script 1
-Rscript ./r_script_1.R
-# some time to prevent similar time labels names etc.
-sleep 2
+# start R script
+Rscript ./rScript_single.R
 
-# start a second script
-Rscript ./r_script_2.R 20 ${SLURM_JOB_ID}
 
 

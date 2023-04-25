@@ -1,0 +1,6 @@
+Host vaughan
+	HostName login-vaughan.hpc.uantwerpen.be
+	User vscXXX
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/id_rsa

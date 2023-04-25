@@ -1,32 +1,28 @@
-This folder contains some examples to submit "jobs" on the VSC cluster Vaughan 
-at the University of Antwerp to run e.g. R code
+This folder contains some examples to run R code by submitting a "job" on the VSC cluster "Vaughan" at the University of Antwerp 
 
-Files:
-r_script_1.R	 	basic R script to generate a pdf figure
-r_script_2.R	 	R script which takes command line arguments for 
-			the number of dots in the graph and run ID
-r_script_3.R	 	R script with some kind of scheduler to run the 
-			r_script_2.R script multiple times in parallel.
+Files (best to explore them in this order):
+rScript_single.R 	R script to generate a single pdf figure
+rScript_parfor.R	R script which takes command line arguments and runs 
+			a parallel foreach to generate pdf files and an output 
+			matrix.
 
-job_vaughan_single.sh	bash script to set the environment for r_script_1.R
-			and r_script_2.R and to run the code.
-job_vaughan_multi.sh	bash script to set the environment for r_script_1.R
-			and r_script_2.R and to run the code in parallel.
-job_vaughan_parallel.sh	bash script to set the environment for r_script_3.R
+job_vaughan_single.sh	Bash script to set the environment for rScript_single.R 
+			and to run the code.
+job_vaughan_parfor.sh	Bash script to set the environment for rScript_parfor.R 
 			and to run the parallel code.
-job_vaughan_param.sh	bash script to run r_script_2.R with command line
-			interface parameters and specific job-name.
 
-vaughan_load.sh		bash script to locate in your VSC_HOME folder to 
-			easily load your default modules and change directory
-			your VSC_DATA folder. (You might need to set this file
+Optional files:
+vaughan_load.sh		Bash script to store in your VSC_HOME folder to easily
+			load your default modules and change directory your 
+			VSC_DATA folder. (You might need to set this file
 			as an executable, see comments in the .sh file)
+
+config			configuration file to store in your local .ssh folder
+			to facilitate your ssh login to the cluster
 
 To submit a job (best to explore them in this order)
 sbatch ./job_vaughan_single.sh 
-sbatch ./job_vaughan_multi.sh 
-sbatch ./job_vaughan_parallel.sh 
-sbatch --job-name=param_script --export=ALL,N=40 job_vaughan_param.sh
+sbatch ./job_vaughan_parfor.sh 
 
 To run the initial bash script
 . ./vaughan_load.sh
@@ -44,7 +40,7 @@ Some general advice:
 Information on parallel setup
 - if you want one process that can use 16 cores for multithreading: --ntasks=1 --cpus-per-task=16
 - if you want to launch 16 independent processes (no communication): --ntasks=16
-- if you use mpi and do not care about where those cores are distributed: --ntasks=16
+- if you do not care about where those cores are distributed: --ntasks=16
 
 Useful links on VSC and CalcUA
 - https://docs.vscentrum.be
@@ -68,7 +64,7 @@ Useful slurm job commands:
 
 
 
-############################################################
-##  Lander Willem, 10/11/2021, lander.willem@uantwerp.be  ##
-############################################################
+##############################################################
+##  Lander Willem, 25/04/2023, lander.willem@uantwerpen.be  ##
+##############################################################
  
