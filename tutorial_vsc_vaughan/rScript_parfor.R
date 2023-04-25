@@ -100,11 +100,16 @@ foreach(i_chain = 1:num_chains,
         .combine = "rbind") %dopar%
   {
 
-  # get process id (for illustration purpose of the parallel setup)
+  # get process id (for illustration purpose of the parallel set-up)
   str_iter_id <- Sys.getpid()
-  ps_all <- system('ps -o pid,psr,comm',intern = F)
 
-  sys.status()
+  # optional linux command
+  ps_all <- system('ps -o pid,psr,comm',intern = F)
+  if(length(ps_all)>1){
+    str_iter_id <- paste(str_iter_id,
+                         ps_all$PSR[ps_all$PID == str_iter_id],
+                         sep='_cpu')
+  }
 
   # option 1: save results to file
   # note: return results to save them here, or make sure that the model output
