@@ -2,7 +2,7 @@
 % Please edit documentation in R/misc_parallel_admin.R
 \name{smd_check_cluster}
 \alias{smd_check_cluster}
-\title{Check parallel working nodes, and start a cluster if not present yet.}
+\title{Check parallel working nodes}
 \usage{
 smd_check_cluster()
 }
@@ -10,5 +10,7 @@ smd_check_cluster()
 Cluster info
 }
 \description{
-Check parallel working nodes, and start a cluster if not present yet.
+Verify whether a parallel cluster is active and start one if not. The check is based
+on the presence of the global variable 'par_nodes_info'. If a parallel cluster is already active,
+the time stamp in 'par_nodes_info' is updated
 }

@@ -2,24 +2,28 @@
 % Please edit documentation in R/misc_cli.R
 \name{smd_print_progress}
 \alias{smd_print_progress}
-\title{Print progress bar}
+\title{Print progress to the terminal}
 \usage{
 smd_print_progress(
   i_current,
   i_total,
-  time_stamp_loop = Sys.time(),
-  par_nodes_info = NA
+  time_stamp_loop = NULL,
+  par_nodes_info = parent.env(environment())$par_nodes_info
 )
 }
 \arguments{
-\item{i_current}{current iteration}
+\item{i_current}{Current iteration number.}
 
-\item{i_total}{total iterations}
+\item{i_total}{Total number of iterations.}
 
-\item{time_stamp_loop}{starting time}
+\item{time_stamp_loop}{Starting time of the iteration. The default is the time stamp included in the 'par_nodes_info'. If the latter is also not available, no time estimation is provided.}
 
-\item{par_nodes_info}{info about parallel nodes}
+\item{par_nodes_info}{Information about parallel workers, including the process ID and the time of creation or the last update of the parallel cluster. If not given, the variable 'par_nodes_info' from the parent environment will be used.}
 }
 \description{
-Progress bar interface
+Display the progress of an iteration to the terminal, including the current time, the current
+step, and a rough estimate of the remaining time. If this function is called in a parallel
+environment, only the master and the first node will print the progress. Otherwise, the progress of
+every iteration will be printed. If no 'time_stamp_loop' is provided, the creation time (or last update time)
+of the parallel cluster will be used as the reference time.
 }

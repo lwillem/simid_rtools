@@ -27,7 +27,7 @@
 ## START CLUSTER WITH PARALLEL WORKERS ----
 ############################################################### #
 #' @title Start parallel working nodes
-#' @param timeout The timeout in seconds for the nodes
+#' @param timeout The time-out in seconds for the nodes
 #' @param num_proc The number of parallel workers to start (NA = default, number of CPU cores)
 #' @return Cluster info, also available as global variable 'par_nodes_info'
 #' @keywords external
@@ -47,6 +47,9 @@ smd_start_cluster <- function(timeout = 100, num_proc = NA)
     num_proc <- detectCores()
   }
 
+  # CREATE GLOBAL VARIABLE
+  .GlobalEnv$par_nodes_info <- list(pid_master  = Sys.getpid())
+
   ## SETUP PARALLEL NODES
   # note: they will be removed after 100 seconds inactivity
   par_cluster   <- makeCluster(num_proc, cores=num_proc, timeout = timeout, setup_strategy = "sequential")
@@ -55,10 +58,12 @@ smd_start_cluster <- function(timeout = 100, num_proc = NA)
   # store the process id (pid) of the first slave
   pid_slave1 <- clusterEvalQ(par_cluster, { Sys.getpid() })[[1]]
 
-  # CREATE GLOBAL VARIABLE
-  par_nodes_info <<- list(par_cluster = par_cluster,
-                          pid_master  = Sys.getpid(),
-                          pid_slave1  = pid_slave1)
+  # update global variable
+  .GlobalEnv$par_nodes_info$par_cluster <- par_cluster
+  .GlobalEnv$par_nodes_info$pid_slave1  <- pid_slave1
+  .GlobalEnv$par_nodes_info$time_stamp  <- Sys.time()
+
+  return(par_nodes_info)
 }
 
 
@@ -72,6 +77,7 @@ smd_stop_cluster <- function()
 {
   ## check if global variable of existing working nodes is present
   if(exists('par_nodes_info')){
+
     # check if parallel workers still exist (i.e. not removed after inactivity)
     if(par_nodes_info$pid_slave1 %in% ps()$pid){
       smd_print("STOP PARALLEL WORKERS")
@@ -85,7 +91,12 @@ smd_stop_cluster <- function()
 ############################################################### #
 ## CHECK IF CLUSTER EXISTS AND START ONE IF NOT PRESENT----
 ############################################################### #
-#' @title Check parallel working nodes, and start a cluster if not present yet.
+#' @title Check parallel working nodes
+#'
+#' @description Verify whether a parallel cluster is active and start one if not. The check is based
+#' on the presence of the global variable 'par_nodes_info'. If a parallel cluster is already active,
+#' the time stamp in 'par_nodes_info' is updated
+#'
 #' @return Cluster info
 #' @export
 smd_check_cluster <- function()
@@ -95,6 +106,9 @@ smd_check_cluster <- function()
   } else if (!any(grepl(par_nodes_info$pid_slave1,ps()$pid))){
     smd_start_cluster()
   }
+
+  # update the time stamp
+  .GlobalEnv$par_nodes_info$time_stamp  <- Sys.time()
 
   # return par_nodes_info
   return(par_nodes_info)

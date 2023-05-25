@@ -29,6 +29,8 @@
 #' @keywords internal
 #'
 
+globalVariables(c("par_nodes_info"))
+
 ## PACKAGE ADMIN
 #usethis::use_build_ignore("tutorials")
 #usethis::use_gpl3_license("lwillem")

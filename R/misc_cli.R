@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2022 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Print (warning) message to Console
@@ -69,36 +69,54 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
 }
 
 
-#' @title Print progress bar
+#' @title Print progress to the terminal
 #'
-#' @description Progress bar interface
+#' @description Display the progress of an iteration to the terminal, including the current time, the current
+#' step, and a rough estimate of the remaining time. If this function is called in a parallel
+#' environment, only the master and the first node will print the progress. Otherwise, the progress of
+#' every iteration will be printed. If no 'time_stamp_loop' is provided, the creation time (or last update time)
+#' of the parallel cluster will be used as the reference time.
 #'
-#' @param i_current       current iteration
-#' @param i_total         total iterations
-#' @param time_stamp_loop starting time
-#' @param par_nodes_info  info about parallel nodes
+#' @param i_current       Current iteration number.
+#' @param i_total         Total number of iterations.
+#' @param time_stamp_loop Starting time of the iteration. The default is the time stamp included in the 'par_nodes_info'. If the latter is also not available, no time estimation is provided.
+#' @param par_nodes_info  Information about parallel workers, including the process ID and the time of creation or the last update of the parallel cluster. If not given, the variable 'par_nodes_info' from the parent environment will be used.
 #'
 #' @export
-smd_print_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nodes_info = NA){
+smd_print_progress <- function(i_current, i_total, time_stamp_loop = NULL, par_nodes_info = parent.env(environment())$par_nodes_info) {
 
-  # print if function is called by first node (= or serial mode)
-  if(any(is.na(par_nodes_info)) || (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)){
+  if(any(is.null(par_nodes_info))){
+    par_nodes_info <- NA
+  }
 
-    # calculate progress
-    progress_scen        <- floor(i_current/i_total*100)
-    progress_time        <- round(difftime(Sys.time(),time_stamp_loop,units = "min"),digits=1)
+  if (is.null(time_stamp_loop) && !any(is.na(par_nodes_info))){
+      time_stamp_loop <- as.POSIXct(par_nodes_info$time_stamp)
+    }
 
-    # estimate remaining time (after 15%)
+  # Print if the function is called by the first node or when called in the absence of parallel nodes
+  if (any(is.na(par_nodes_info)) || (Sys.getpid() == par_nodes_info$pid_master || Sys.getpid() == par_nodes_info$pid_slave1)) {
+
+    # Estimate remaining time, if possible
     time_label <- ''
-    if(progress_time > 0 & progress_scen > 15 & progress_scen < 99) {
-      estim_time <-  round(progress_time / progress_scen * (100-progress_scen),digits=1)
-      if(estim_time<1) {estim_time <- '<1'}
-      time_label <- paste0('[',estim_time,' min remaining]')
-     }
+    if (!is.null(time_stamp_loop)) {
 
-    smd_print('RUNNING...',i_current,'/',i_total,time_label,FORCED=TRUE)
+      # Calculate progress
+      progress_scen <- floor(i_current / i_total * 100)
+      progress_time <- round(difftime(Sys.time(), time_stamp_loop, units = "min"), digits = 1)
+
+      # print remaining time after 15%
+      if (progress_time > 0 & progress_scen > 15 & progress_scen < 99) {
+        estim_time <- round(progress_time / progress_scen * (100 - progress_scen), digits = 1)
+        if (estim_time < 1) estim_time <- '<1'
+        time_label <- paste0('[', estim_time, ' min remaining]')
+      }
+    }
+    smd_print('RUNNING...', i_current, '/', i_total, time_label, FORCED = TRUE)
   }
 }
+
+
+
 
 #' @title Print progress bar [DEPRECATED]
 #'

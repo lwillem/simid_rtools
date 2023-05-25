@@ -7,7 +7,7 @@
 smd_start_cluster(timeout = 100, num_proc = NA)
 }
 \arguments{
-\item{timeout}{The timeout in seconds for the nodes}
+\item{timeout}{The time-out in seconds for the nodes}
 
 \item{num_proc}{The number of parallel workers to start (NA = default, number of CPU cores)}
 }
