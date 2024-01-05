@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #############################################################################
@@ -52,17 +52,19 @@ smd_read_rdata <- function(filename){
 
 
 #############################################################################
-# GET FILE PATH (create required folder(s) if they are not present yet)
+# GET FILE PATH: (re)create required folder(s) if they are not present yet
 #############################################################################
 
-#' @title Get (and create) folder path
+#' @title Construct the path to a file with given string(s).
+#' @description This is an extension of the base `file.path()` function to construct the path in a platform-independent way by (re)creating subfolders if needed.
 #'
-#' @param ... the directory name(s)
-#' @param .verbose boolean to print a message if a new folder is created (default: TRUE)
+#' @param ... character vectors for the directory and/or file name(s)
+#' @param .verbose boolean to print a message if a new directory is created (default: TRUE)
+#' @param .overwrite boolean whether an existing directory should be overwritten (default: FALSE)
 #'
 #' @keywords external
 #' @export
-smd_file_path <- function(...,.verbose=TRUE){
+smd_file_path <- function(...,.verbose=TRUE,.overwrite=FALSE){
 
   # get file path based on given parameters
   file_path <- file.path(...)
@@ -74,9 +76,14 @@ smd_file_path <- function(...,.verbose=TRUE){
     file_dir <- file_path
   }
 
+  # check if requested folder exists, and remove this if requested
+  if(dir.exists(file_dir) && .overwrite == TRUE){
+    unlink(file_dir,recursive = TRUE,force = TRUE)
+  }
+
   # check if the requested folder exist, and create the folder(s) if not
   if(!dir.exists(file_dir)){
-    dir.create(file_dir,recursive = T)
+    dir.create(file_dir,recursive = TRUE,)
     if(.verbose) {
       smd_print('Create directory:',file_dir)
       }

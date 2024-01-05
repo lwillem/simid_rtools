@@ -2,16 +2,18 @@
 % Please edit documentation in R/misc_file_admin.R
 \name{smd_file_path}
 \alias{smd_file_path}
-\title{Get (and create) folder path}
+\title{Construct the path to a file with given string(s).}
 \usage{
-smd_file_path(..., .verbose = TRUE)
+smd_file_path(..., .verbose = TRUE, .overwrite = FALSE)
 }
 \arguments{
-\item{...}{the directory name(s)}
+\item{...}{character vectors for the directory and/or file name(s)}
 
-\item{.verbose}{boolean to print a message if a new folder is created (default: TRUE)}
+\item{.verbose}{boolean to print a message if a new directory is created (default: TRUE)}
+
+\item{.overwrite}{boolean whether an existing directory should be overwritten (default: FALSE)}
 }
 \description{
-Get (and create) folder path
+This is an extension of the base `file.path()` function to construct the path in a platform-independent way by (re)creating subfolders if needed.
 }
 \keyword{external}
