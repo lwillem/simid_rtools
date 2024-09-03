@@ -42,19 +42,19 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   }
 
   # if quotation marks are used in the provided string(s), replace " by '
-  if(any(grepl('\"',function_arguments))){
-    function_arguments <- gsub('\"',"\'",function_arguments)
+  if(any(grepl('\"',f_out))){
+    f_out <- gsub('\"',"\'",f_out)
   }
 
   # add a space to each function arguments
-  function_arguments <- paste(f_out,collapse = ' ')
+  f_out <- paste(f_out,collapse = ' ')
 
   # set text color: default (black/white) or red (warning)
   text_color         <- smd_get_console_color(WARNING)
 
   # print time + arguments (without spaces)
   cli_out <- paste0(c('echo "',text_color, '[',format(Sys.time(),'%H:%M:%S'),']',
-                      function_arguments,'"'),collapse = '')
+                      f_out,'"'),collapse = '')
 
   # print if function is called by master-node or first slave
   if(!exists('par_nodes_info') ||
