@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Convert a list into XML format (RECURSIVE FUNCTION)
@@ -24,8 +24,9 @@
 #' @param node     the XML node
 #' @param sublist  the list to be stored
 #'
-#' @export
 #' @import XML
+#'
+#' @export
 smd_listToXML <- function(node, sublist){
 
   for(i in 1:length(sublist)){
@@ -52,7 +53,7 @@ smd_listToXML <- function(node, sublist){
 #'
 #' @keywords external
 #' @export
-#' @import XML
+#' @importFrom XML newXMLDoc newXMLNode newXMLCommentNode saveXML
 smd_save_as_xml <- function(data_list,
                             root_name,
                             file_name_prefix = 'data',

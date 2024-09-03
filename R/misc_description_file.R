@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title smd_increment_package_version_number
@@ -38,6 +38,7 @@ smd_increment_package_version_number <- function(root_folder = ".") {
 #' @param root_folder the root folder of the software project
 #' @param misc_info misc info to complete the description file (e.g. unit test info). Works only with values with a (col)name such as c(test='OK') and is empty by default.
 #'
+#' @importFrom utils sessionInfo
 #' @export
 smd_update_description_file <- function(root_folder = ".", misc_info = '') {
 
@@ -149,8 +150,13 @@ smd_get_local_git_commit_tag <- function(){
   # reformat date and time
   cNumber_split <- unlist(strsplit(cNumber_repo_date,' '))
   cNumber_time <- cNumber_split[4]
-  cNumber_date <- paste(cNumber_split[c(1:3,5)],collapse = ' ')
-  cNumber_date <- as.Date(cNumber_date,format='%a %h %d %Y')
+  cNumber_date_str <- paste(cNumber_split[c(1:3,5)],collapse = ' ')
+  cNumber_date     <- as.Date(cNumber_date_str,format='%a %h %d %Y')
+  if(is.na(cNumber_date)){ # try other notation
+    Sys.setlocale("LC_TIME", "en_US")
+    cNumber_date     <- as.Date(cNumber_date_str,format='%a %h %d %Y')
+    Sys.setlocale("LC_TIME", "")
+  }
 
   # commit index
   cIndex <- length(cLines_repo_date)

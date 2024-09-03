@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2022 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 
@@ -32,6 +32,7 @@
 #' @param main_title  new 'Title' of the METADATA file (optional).
 #' @param sub_title   subtitle for the new section to add, which will be capitalized (default: PROCESSING DETAILS).
 #'
+#' @importFrom tools file_path_sans_ext
 #'
 #' @export
 smd_create_metadata_file <- function(output_dir, data_file = NA, run_tag = NA,

@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2023 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Print (warning) message to Console
@@ -39,6 +39,11 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   f_out <- ' '
   for(i in 1:length(function_arguments)){
     f_out <- cbind(f_out,eval(unlist(function_arguments[[i]]),envir = pf))
+  }
+
+  # if quotation marks are used in the provided string(s), replace " by '
+  if(any(grepl('\"',function_arguments))){
+    function_arguments <- gsub('\"',"\'",function_arguments)
   }
 
   # add a space to each function arguments
@@ -139,6 +144,8 @@ smd_progress <- function(i_current,i_total, time_stamp_loop = Sys.time(),par_nod
 #' is used in DARK mode. This function return 'black' or 'white', based on the current theme.
 #' If the function is used in R, an empty color is returned.
 #'
+#' @importFrom rstudioapi isAvailable
+#' @importFrom rstudioapi getThemeInfo
 #' @keywords internal
 smd_get_console_color <- function(WARNING=FALSE){
 

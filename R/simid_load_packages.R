@@ -14,13 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2019 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Load the given packages (and install them if not present yet)
 #'
 #' @param ...  all packages to load
 #' @keywords external
+#'
+#' @importFrom utils install.packages installed.packages
 #' @export
 smd_load_packages <- function(...)
 {
