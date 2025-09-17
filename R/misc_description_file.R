@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2025 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title smd_increment_package_version_number
@@ -49,7 +49,8 @@ smd_update_description_file <- function(root_folder = ".", misc_info = '') {
     git_log_filename     <- file.path(root_folder, ".git")
 
     # check if files exists
-    if (file.exists(description_filename) & file.exists(git_log_filename)) {
+    if (length(description_filename) > 0 &&
+        file.exists(description_filename) && file.exists(git_log_filename)) {
         ## Read DESCRIPTION file
         desc <- readLines(description_filename)
 

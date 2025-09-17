@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2024 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
+# Copyright (C) 2025 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
 #############################################################################
 
 #' @title Print (warning) message to Console
@@ -35,19 +35,16 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   # get function-call environment (to retrieve variable from that environment)
   pf <- parent.frame()
 
-  #parse list => make character vector
+  #parse list and add to f_out
   f_out <- ' '
   for(i in 1:length(function_arguments)){
-    f_out <- cbind(f_out,eval(unlist(function_arguments[[i]]),envir = pf))
+    f_out <- paste(c(f_out,eval(unlist(function_arguments[[i]]),envir = pf)),collapse = ' ')
   }
 
   # if quotation marks are used in the provided string(s), replace " by '
   if(any(grepl('\"',f_out))){
     f_out <- gsub('\"',"\'",f_out)
   }
-
-  # add a space to each function arguments
-  f_out <- paste(f_out,collapse = ' ')
 
   # set text color: default (black/white) or red (warning)
   text_color         <- smd_get_console_color(WARNING)
@@ -67,7 +64,7 @@ smd_print <- function(..., WARNING=F, FORCED=F) {
   # add to R warnings
   if(WARNING){
     cli_warning <- paste0(c(text_color, '[',format(Sys.time(),'%H:%M:%S'),']',
-                            function_arguments),collapse = '')
+                            f_out),collapse = '')
     warning(cli_warning,
             call. = FALSE, immediate.=FALSE)
   }

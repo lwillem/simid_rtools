@@ -2,6 +2,7 @@
 % Please edit documentation in R/misc_package_admin.R
 \docType{package}
 \name{simid.rtools}
+\alias{-package}
 \alias{simid.rtools}
 \title{simid.rtools: Extended R functions.}
 \description{
