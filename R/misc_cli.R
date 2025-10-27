@@ -1,4 +1,4 @@
-#############################################################################
+############################################################################ #
 # COMMAND LINE INTERFACE TOOLS
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Copyright (C) 2025 lwillem, SIMID, UNIVERSITY OF ANTWERP, BELGIUM
-#############################################################################
+############################################################################ #
 
 #' @title Print (warning) message to Console
 #'
@@ -118,7 +118,51 @@ smd_print_progress <- function(i_current, i_total, time_stamp_loop = NULL, par_n
 }
 
 
+#' Print a Human-Readable Time Difference
+#'
+#' Computes and returns a formatted character string representing the time difference
+#' between two timestamps. The difference is rounded to a specified number of digits
+#' and enclosed in user-defined brackets.
+#'
+#' @param time_stamp_begin POSIXct or Date. The starting time stamp.
+#' @param time_stamp_end POSIXct or Date. The ending time stamp. Defaults to the current system time (`Sys.time()`).
+#' @param units Character string specifying the time unit for the difference.
+#'   Must be one of `"auto"`, `"secs"`, `"mins"`, `"hours"`, `"days"`, or `"weeks"`.
+#'   See [base::difftime()] for details. Defaults to `"secs"`.
+#' @param digits Integer. Number of digits to round the time difference to. Defaults to `1`.
+#' @param txt_brackets Character vector of length 2 specifying the opening and closing
+#'   brackets (or any surrounding text) used to enclose the output. If any element is `NA`,
+#'   both brackets are omitted. Defaults to `c("[", "]")`.
+#'
+#' @return
+#' A character string representing the time difference, e.g. `"[12.3 secs]"`.
+#'
+#' @seealso [base::difftime()], [base::Sys.time()]
+#'
+#' @export
+smd_format_difftime <- function(time_stamp_begin,
+                                time_stamp_end = Sys.time(),
+                                units = "secs",
+                                digits = 1,
+                                txt_brackets = c('[',']')){
+  if(any(is.na(txt_brackets))){
+    txt_brackets <- c('','')
+  }
 
+  # calculate time difference
+  time_diff <- round(difftime(time_stamp_end, time_stamp_begin, units = units), digits = digits)
+
+  # get actual units from difference (unknown if "auto" was set as unit)
+  txt_units <- attr(time_diff, "units")
+
+  # update unit when time difference is below 2
+  if(abs(time_diff) < 2){
+    txt_units <- substr(txt_units,0,nchar(txt_units) - 1)
+  }
+
+  # return result
+  return(paste0(txt_brackets[1], time_diff, ' ', txt_units, txt_brackets[2]))
+}
 
 #' @title Print progress bar [DEPRECATED]
 #'
